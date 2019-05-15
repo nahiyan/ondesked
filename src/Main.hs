@@ -1,7 +1,7 @@
 module Main where
 
 import           Data.ByteString.UTF8 as BSU
-import           Element              (processNode, toCpp)
+import           Element              (processNodes, toCpp)
 import           System.IO
 import           Types                (Model (..))
 import           Xeno.DOM             (parse)
@@ -24,7 +24,7 @@ main =
             in
             case parsed of
                 Right node ->
-                    putStrLn $ toCpp (processNode node initialModel)
+                    putStrLn $ toCpp (processNodes [ node ] initialModel)
 
                 Left exception ->
                     putStrLn $ show exception
