@@ -12,6 +12,5 @@ data Element =
 data Model =
     Model
         { document :: [ Element ]
-        , level    :: Int
-        , nesting  :: [ ( Int, Element ) ]
+        , parents  :: [ Int ]
         }

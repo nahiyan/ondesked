@@ -4,8 +4,8 @@ import           Data.ByteString.UTF8 as BSU
 import           Data.List            as List
 -- import           Debug.Trace          (trace)
 import           Types                (Element (..), Model (..))
-import           Xeno.DOM             (Content (Text, Element), Node, attributes,
-                                       contents, name)
+import           Xeno.DOM             (Content (Element, Text), Node,
+                                       attributes, contents, name)
 
 
 stringifyAttributes :: [ (ByteString, ByteString) ] -> [ (String, String) ]
@@ -29,6 +29,12 @@ processNodes nodes model =
         let
             node =
                 List.head nodes
+
+            parentOfElement =
+                if (List.length $ parents model) /= 0 then
+                    Just (List.head $ parents model)
+                else
+                    Nothing
 
             texts =
                 List.filter
@@ -64,28 +70,23 @@ processNodes nodes model =
                 else
                     Just textsFolded
 
+            elementId =
+                case highestId $ document model of
+                    Just justHighestId ->
+                        justHighestId + 1
+                    Nothing ->
+                        1
+
             element =
                 Types.Element
                     (BSU.toString $ Xeno.DOM.name node)
-                    (case highestId $ document model of
-                        Just justHighestId ->
-                            justHighestId
-                        Nothing ->
-                            1
-                    )
-                    Nothing
+                    elementId
+                    parentOfElement
                     elementContent
                     (stringifyAttributes $ Xeno.DOM.attributes node)
 
             newDocument =
                 (document model) ++ [ element ]
-
-            newModel =
-                Model
-                    { document = newDocument
-                    , level = level model
-                    , nesting = nesting model
-                    }
 
             elements =
                 List.filter
@@ -107,6 +108,28 @@ processNodes nodes model =
 
             restOfNodes =
                 (List.tail nodes) ++ elementsNodified
+
+            parentAdditions =
+                (List.map
+                    (\_ ->
+                        elementId
+                    )
+                    elementsNodified
+                )
+
+            newParents =
+                if (List.length $ parents model) == 0 then
+                    parentAdditions
+                else
+                    (List.tail $ parents model)
+                        ++
+                            parentAdditions
+
+            newModel =
+                Model
+                    { document = newDocument
+                    , parents = newParents
+                    }
         in
         processNodes restOfNodes newModel
 
@@ -117,9 +140,12 @@ highestId' elements highest =
         Just highest
     else
         let
+            currentElement =
+                head elements
+
             newHighest =
-                if Types.id (head elements) > highest then
-                    Types.id (head elements)
+                if Types.id currentElement > highest then
+                    Types.id currentElement
                 else
                     highest
         in

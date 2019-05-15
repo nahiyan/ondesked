@@ -10,8 +10,7 @@ initialModel :: Model
 initialModel =
     Model
         { document = []
-        , level = 0
-        , nesting = []
+        , parents = []
         }
 
 main :: IO ()
