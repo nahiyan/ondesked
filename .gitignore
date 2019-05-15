@@ -1,1 +1,5 @@
 .cabal-sandbox
+cabal.sandbox.config
+dist
+format.sh
+run.sh
