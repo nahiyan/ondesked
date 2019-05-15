@@ -2,9 +2,9 @@ module Element(processNodes, toCpp) where
 
 import           Data.ByteString.UTF8 as BSU
 import           Data.List            as List
-import           Debug.Trace          (trace)
+-- import           Debug.Trace          (trace)
 import           Types                (Element (..), Model (..))
-import           Xeno.DOM             (Content (Text), Node, attributes,
+import           Xeno.DOM             (Content (Text, Element), Node, attributes,
                                        contents, name)
 
 
@@ -30,24 +30,11 @@ processNodes nodes model =
             node =
                 List.head nodes
 
-            restOfNodes =
-                List.tail nodes
-
-            newDocument =
-                (document model) ++ [ element ]
-
-            newModel =
-                Model
-                    { document = newDocument
-                    , level = level model
-                    , nesting = nesting model
-                    }
-
             texts =
                 List.filter
                     (\contentItem ->
                         case contentItem of
-                            Text a ->
+                            Text _ ->
                                 True
                             _ ->
                                 False
@@ -71,24 +58,55 @@ processNodes nodes model =
                     ""
                     textsStringified
 
-            content =
+            elementContent =
                 if List.length textsFolded == 0 then
                     Nothing
                 else
                     Just textsFolded
 
             element =
-                trace "Element" (Element
+                Types.Element
                     (BSU.toString $ Xeno.DOM.name node)
-                    (case highestId $ Types.document model of
+                    (case highestId $ document model of
                         Just justHighestId ->
                             justHighestId
                         Nothing ->
                             1
                     )
-                    (Just 0)
-                    content
-                    (stringifyAttributes $ Xeno.DOM.attributes node))
+                    Nothing
+                    elementContent
+                    (stringifyAttributes $ Xeno.DOM.attributes node)
+
+            newDocument =
+                (document model) ++ [ element ]
+
+            newModel =
+                Model
+                    { document = newDocument
+                    , level = level model
+                    , nesting = nesting model
+                    }
+
+            elements =
+                List.filter
+                    (\contentItem ->
+                        case contentItem of
+                            Xeno.DOM.Element _ ->
+                                True
+                            _ ->
+                                False
+                    )
+                    (contents node)
+
+            elementsNodified =
+                List.map
+                    (\(Xeno.DOM.Element elementNode) ->
+                        elementNode
+                    )
+                    elements
+
+            restOfNodes =
+                (List.tail nodes) ++ elementsNodified
         in
         processNodes restOfNodes newModel
 
@@ -118,4 +136,18 @@ highestId elements =
 
 toCpp :: Model -> String
 toCpp model =
-    "Hello World!"
+    let
+        elementsStringified =
+            List.map
+                (\element ->
+                    show element
+                )
+                (document model)
+
+        elementsStringifiedFolded =
+            List.foldl
+                (++)
+                ""
+                elementsStringified
+    in
+    elementsStringifiedFolded
