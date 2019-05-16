@@ -24,7 +24,7 @@ Here's some Ondesked code:
                             <button id="decrement_button">Decrement</button>
                         </box_sizer>
                     </panel>
-                    <textarea id="textarea" width="500" height="200" padding="xb-20" grow="1">Hey now brown cow!</textarea>
+                    <textarea id="textarea" width="500" height="300" padding="xb-20" grow="1">Hey now brown cow!</textarea>
                 </box_sizer>
             </panel>
         </box_sizer>
@@ -64,7 +64,7 @@ bool NumberIncrementor::OnInit()
     buttons_panel_sizer->Add(increment_button, 0, wxEXPAND | wxRIGHT, 20);
     buttons_panel_sizer->Add(decrement_button, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP | wxBOTTOM, 0);
 
-    wxTextCtrl* textarea = new wxTextCtrl(panel, wxID_ANY, wxT("Hey now brown cow!"), wxDefaultPosition, wxSize(500, 200), wxTE_MULTILINE);
+    wxTextCtrl* textarea = new wxTextCtrl(panel, wxID_ANY, wxT("Hey now brown cow!"), wxDefaultPosition, wxSize(500, 300), wxTE_MULTILINE);
 
     panel_sizer->Add(buttons_panel, 0, wxEXPAND | wxLEFT | wxRIGHT | wxTOP | wxBOTTOM, 20);
     panel_sizer->Add(textarea, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 20);
