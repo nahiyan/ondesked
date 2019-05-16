@@ -3,6 +3,8 @@ module Element(processNodes, toCpp) where
 import           Data.ByteString.UTF8 as BSU
 import           Data.List            as List
 -- import           Debug.Trace          (trace)
+import           App                  (toCppFooter, toCppHeader)
+-- import           Common               (attributeValue)
 import           Types                (Element (..), Model (..))
 import           Xeno.DOM             (Content (Element, Text), Node,
                                        attributes, contents, name)
@@ -160,20 +162,100 @@ highestId elements =
         highestId' elements (Types.id (head elements))
 
 
+elementsByParentId :: Int -> Model -> [ Element ]
+elementsByParentId elementId model =
+    List.filter
+        (\element ->
+            case Types.parent element of
+                Just justParent ->
+                    if justParent == elementId then
+                        True
+                    else
+                        False
+                Nothing ->
+                    False
+        )
+        (document model)
+
+
+toCpp' :: [ Element ] -> String -> Model -> Int -> String
+toCpp' elements code model indentationAmount =
+    if List.length elements == 0 then
+        code
+    else
+        let
+            element =
+                List.head elements
+
+            restOfElements =
+                List.tail elements
+
+            children =
+                elementsByParentId (Types.id element) model
+        in
+        case Types.name element of
+            "app" ->
+                let
+                    appCodeHeader =
+                        App.toCppHeader element indentationAmount
+
+                    appFooter =
+                        Types.Element
+                            { Types.name = "app_footer"
+                            , Types.id = 0
+                            , Types.parent = Types.parent element
+                            , Types.content = Types.content element
+                            , Types.attributes = Types.attributes element
+                            }
+                in
+                toCpp'
+                    (children ++ [ appFooter ] ++ restOfElements)
+                    (code ++ appCodeHeader)
+                    model
+                    (indentationAmount + 1)
+
+            "app_footer" ->
+                let
+                    appCodeFooter =
+                        App.toCppFooter element indentationAmount
+                in
+                toCpp'
+                    restOfElements
+                    (code ++ appCodeFooter)
+                    model
+                    indentationAmount
+
+            _ ->
+                toCpp'
+                    restOfElements
+                    code
+                    model
+                    indentationAmount
+
+
+
 toCpp :: Model -> String
 toCpp model =
-    let
-        elementsStringified =
-            List.map
-                (\element ->
-                    show element
-                )
-                (document model)
+    if (List.length $ document model) /= 0 then
+        let
+            firstElement =
+                List.head $ document model
+        in
+        toCpp' [ firstElement ] "" model 0
+    else
+        ""
+    -- let
+    --     elementsStringified =
+    --         List.map
+    --             (\element ->
+    --                 show element
+    --             )
+    --             (document model)
 
-        elementsStringifiedFolded =
-            List.foldl
-                (++)
-                ""
-                elementsStringified
-    in
-    elementsStringifiedFolded
+    --     elementsStringifiedFolded =
+    --         List.foldl
+    --             (++)
+    --             ""
+    --             elementsStringified
+    -- in
+    -- elementsStringifiedFolded
