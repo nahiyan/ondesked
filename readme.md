@@ -34,7 +34,7 @@ Here's some Ondesked code:
 
 ## Generated C++ Code
 
-After compilation, code equivalent to this maybe generated:
+After compilation, code equivalent to this will be generated:
 
 ```cpp
 bool MyApp::OnInit()
@@ -105,7 +105,7 @@ bool MyApp::OnInit()
 }
 ```
 
-## Results
+## Result
 
 This is how the desktop application may look like after compiled:
 

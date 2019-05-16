@@ -14,4 +14,5 @@ toCppHeader element indentationAmount =
 
 toCppFooter :: Int -> String
 toCppFooter indentationAmount =
-    (indentation indentationAmount) ++ "return true;\n}"
+    (indentation indentationAmount)
+        ++ "return true;\n}"

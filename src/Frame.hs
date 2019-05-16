@@ -36,7 +36,7 @@ toCppHeader element elementParent indentationAmount =
                 ++ ", wxID_ANY, "
                 ++ "wxT(\""
                 ++ title
-                ++ "\"), wxDefaultPosition, wxDefaultSize);\n"
+                ++ "\"), wxDefaultPosition, wxDefaultSize);\n\n"
 
         center =
             if True == hasClass "centered" element then
@@ -57,6 +57,7 @@ toCppHeader element elementParent indentationAmount =
     instantiation
         ++ center
         ++ _show
+        ++ "\n"
 
 -- toCppFooter :: Element -> Int -> String
 -- toCppFooter element indentationAmount =

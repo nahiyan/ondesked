@@ -4,8 +4,11 @@ import           Data.ByteString.UTF8 as BSU
 import           Data.List            as List
 -- import           Debug.Trace          (trace)
 import           App                  (toCppFooter, toCppHeader)
-import           BoxSizer             (toCppHeader)
+import           BoxSizer             (toCppFooter, toCppHeader)
+import           Button               (toCppHeader)
 import           Frame                (toCppHeader)
+import           Panel                (toCppHeader)
+import           Textarea             (toCppHeader)
 -- import           Common               (attributeValue)
 import           Types                (Element (..), Model (..))
 import           Xeno.DOM             (Content (Element, Text), Node,
@@ -199,6 +202,35 @@ elementById elementId model =
         Just (List.head filterResult)
 
 
+parentByElement :: Element -> Model -> Maybe Element
+parentByElement element model =
+    let
+        maybeParentId =
+            Types.parent element
+    in
+    case maybeParentId of
+        Just justParentId ->
+            case elementById justParentId model of
+                Just justParentElement ->
+                    if "box_sizer" == Types.name justParentElement then
+                        let
+                            maybeGrandParentElement =
+                                case Types.parent justParentElement of
+                                    Just grandParentId ->
+                                        elementById grandParentId model
+                                    Nothing ->
+                                        Nothing
+                        in
+                        maybeGrandParentElement
+                    else
+                        Just justParentElement
+                Nothing ->
+                    Nothing
+
+        Nothing ->
+            Nothing
+
+
 toCpp' :: [ Element ] -> String -> Model -> Int -> String
 toCpp' elements code model indentationAmount =
     if List.length elements == 0 then
@@ -294,10 +326,109 @@ toCpp' elements code model indentationAmount =
                             element
                             elementParent
                             indentationAmount
+
+                    boxSizerFooter =
+                        Types.Element
+                            { Types.name = "box_sizer_footer"
+                            , Types.id = Types.id element
+                            , Types.parent = Types.parent element
+                            , Types.content = Nothing
+                            , Types.attributes = Types.attributes element
+                            }
+                in
+                toCpp'
+                    (children ++ [ boxSizerFooter ] ++ restOfElements)
+                    (code ++ boxSizerCodeHeader)
+                    model
+                    indentationAmount
+
+            "box_sizer_footer" ->
+                let
+                    elementParent =
+                        case Types.parent element of
+                            Just justParentId ->
+                                elementById justParentId model
+
+                            Nothing ->
+                                Nothing
+
+                    boxSizerCodeFooter =
+                        BoxSizer.toCppFooter
+                            element
+                            elementParent
+                            children
+                            indentationAmount
+                in
+                toCpp'
+                    restOfElements
+                    (code ++ boxSizerCodeFooter)
+                    model
+                    indentationAmount
+
+            "panel" ->
+                let
+                    elementParent =
+                        parentByElement element model
+
+                    panelCodeHeader =
+                        Panel.toCppHeader
+                            element
+                            elementParent
+                            indentationAmount
                 in
                 toCpp'
                     (children ++ restOfElements)
-                    (code ++ boxSizerCodeHeader)
+                    (code ++ panelCodeHeader)
+                    model
+                    indentationAmount
+
+            "button" ->
+                let
+                    elementParent =
+                        parentByElement element model
+
+                    elementContent =
+                        case Types.content element of
+                            Just justElementContent ->
+                                justElementContent
+                            Nothing ->
+                                "Default"
+
+                    buttonCodeHeader =
+                        Button.toCppHeader
+                            element
+                            elementParent
+                            indentationAmount
+                            elementContent
+                in
+                toCpp'
+                    restOfElements
+                    (code ++ buttonCodeHeader)
+                    model
+                    indentationAmount
+
+            "textarea" ->
+                let
+                    elementParent =
+                        parentByElement element model
+
+                    elementContent =
+                        case Types.content element of
+                            Just justElementContent ->
+                                justElementContent
+                            Nothing ->
+                                "Default"
+
+                    textareaCodeHeader =
+                        Textarea.toCppHeader
+                            element
+                            elementParent
+                            indentationAmount
+                            elementContent
+                in
+                toCpp'
+                    restOfElements
+                    (code ++ textareaCodeHeader)
                     model
                     indentationAmount
 

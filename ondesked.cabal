@@ -28,4 +28,7 @@ executable ondesked
                         App,
                         Common,
                         Frame,
-                        BoxSizer
+                        BoxSizer,
+                        Panel,
+                        Button,
+                        Textarea
