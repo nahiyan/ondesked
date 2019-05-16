@@ -1,20 +1,17 @@
 module App(toCppHeader, toCppFooter) where
 
-import           Common (attributeValue, indentation)
+import           Common (elementName, indentation)
 import           Types  (Element (..))
+
 
 toCppHeader :: Element -> Int -> String
 toCppHeader element indentationAmount =
-    let
-        id =
-            case attributeValue "id" element of
-                Just justId ->
-                    justId
-                Nothing ->
-                    "MyApp"
-    in
-    (indentation indentationAmount) ++ "bool MyApp::OnInit()\n{\n"
+    (indentation indentationAmount)
+        ++ "bool "
+        ++ (elementName element)
+        ++ "::OnInit()\n{\n"
 
-toCppFooter :: Element -> Int -> String
-toCppFooter element indentationAmount =
+
+toCppFooter :: Int -> String
+toCppFooter indentationAmount =
     (indentation indentationAmount) ++ "return true;\n}"

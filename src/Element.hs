@@ -1,9 +1,11 @@
-module Element(processNodes, toCpp) where
+module Element(processNodes, toCpp, elementById) where
 
 import           Data.ByteString.UTF8 as BSU
 import           Data.List            as List
 -- import           Debug.Trace          (trace)
 import           App                  (toCppFooter, toCppHeader)
+import           BoxSizer             (toCppHeader)
+import           Frame                (toCppHeader)
 -- import           Common               (attributeValue)
 import           Types                (Element (..), Model (..))
 import           Xeno.DOM             (Content (Element, Text), Node,
@@ -178,6 +180,25 @@ elementsByParentId elementId model =
         (document model)
 
 
+elementById :: Int -> Model -> Maybe Element
+elementById elementId model =
+    let
+        filterResult =
+            List.filter
+                (\element ->
+                    if elementId == Types.id element then
+                        True
+                    else
+                        False
+                )
+                (document model)
+    in
+    if List.length filterResult == 0 then
+        Nothing
+    else
+        Just (List.head filterResult)
+
+
 toCpp' :: [ Element ] -> String -> Model -> Int -> String
 toCpp' elements code model indentationAmount =
     if List.length elements == 0 then
@@ -217,11 +238,66 @@ toCpp' elements code model indentationAmount =
             "app_footer" ->
                 let
                     appCodeFooter =
-                        App.toCppFooter element indentationAmount
+                        App.toCppFooter indentationAmount
                 in
                 toCpp'
                     restOfElements
                     (code ++ appCodeFooter)
+                    model
+                    indentationAmount
+
+            "frame" ->
+                let
+                    elementParent =
+                        case Types.parent element of
+                            Just justParentId ->
+                                let
+                                    e = elementById justParentId model
+                                in
+                                case e of
+                                    Just justE ->
+                                        if "app" == Types.name justE then
+                                            Nothing
+                                        else
+                                            e
+
+                                    Nothing ->
+                                        Nothing
+
+                            Nothing ->
+                                Nothing
+
+                    frameCodeHeader =
+                        Frame.toCppHeader
+                            element
+                            elementParent
+                            indentationAmount
+                in
+                toCpp'
+                    (children ++ restOfElements)
+                    (code ++ frameCodeHeader)
+                    model
+                    indentationAmount
+
+            "box_sizer" ->
+                let
+                    elementParent =
+                        case Types.parent element of
+                            Just justParentId ->
+                                elementById justParentId model
+
+                            Nothing ->
+                                Nothing
+
+                    boxSizerCodeHeader =
+                        BoxSizer.toCppHeader
+                            element
+                            elementParent
+                            indentationAmount
+                in
+                toCpp'
+                    (children ++ restOfElements)
+                    (code ++ boxSizerCodeHeader)
                     model
                     indentationAmount
 
@@ -244,18 +320,3 @@ toCpp model =
         toCpp' [ firstElement ] "" model 0
     else
         ""
-    -- let
-    --     elementsStringified =
-    --         List.map
-    --             (\element ->
-    --                 show element
-    --             )
-    --             (document model)
-
-    --     elementsStringifiedFolded =
-    --         List.foldl
-    --             (++)
-    --             ""
-    --             elementsStringified
-    -- in
-    -- elementsStringifiedFolded

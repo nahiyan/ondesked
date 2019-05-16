@@ -20,9 +20,12 @@ executable ondesked
                         bytestring,
                         xeno,
                         utf8-string,
-                        utility-ht
+                        utility-ht,
+                        split
   default-language:     Haskell2010
   other-modules:        Element,
                         Types,
                         App,
-                        Common
+                        Common,
+                        Frame,
+                        BoxSizer
