@@ -1,6 +1,6 @@
 # Ondesked
 
-Ondesked is a markup language intended to make desktop application GUI development easier.
+Ondesked is a markup language intended to make GUI development of desktop applications much easier.
 
 It's based on XML, and is similar to HTML. It transpiles to a C++, where a GUI toolkit is used to define the GUI. As of now, it uses wxWidgets as the GUI toolkit.
 
