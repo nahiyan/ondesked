@@ -109,4 +109,4 @@ bool MyApp::OnInit()
 
 This is how the desktop application may look like after compiled:
 
-<img src="https://github.com/nahiyan/ondesked/blob/master/docs/images/result.png"/>
+<img src="https://raw.githubusercontent.com/nahiyan/ondesked/master/docs/images/result.png"/>
