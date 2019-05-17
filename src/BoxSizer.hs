@@ -7,16 +7,9 @@ import           Data.List.Split (splitOn)
 import           Types           (Element (..))
 
 
-toCppHeader :: Element -> Maybe Element -> Int -> String
-toCppHeader element elementParent indentationAmount =
+toCppHeader :: Element -> String -> Int -> String
+toCppHeader element elementParentName indentationAmount =
     let
-        elementParentName =
-            case elementParent of
-                Just justElementParent ->
-                    elementName justElementParent
-                Nothing ->
-                    "NULL"
-
         eName =
             elementName element
 
@@ -103,16 +96,9 @@ flagsFromDirections directions =
 --         ""
 
 
-toCppFooter :: Element -> Maybe Element -> [ Element ] -> Int -> String
-toCppFooter element elementParent children indentationAmount =
+toCppFooter :: Element -> String -> [ Element ] -> Int -> String
+toCppFooter element elementParentName children indentationAmount =
     let
-        elementParentName =
-            case elementParent of
-                Just justElementParent ->
-                    elementName justElementParent
-                Nothing ->
-                    "NULL"
-
         eName =
             elementName element
 

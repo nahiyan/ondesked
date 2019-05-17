@@ -21,7 +21,8 @@ executable ondesked
                         xeno,
                         utf8-string,
                         utility-ht,
-                        split
+                        split,
+                        process
   default-language:     Haskell2010
   other-modules:        Element,
                         Types,
@@ -31,4 +32,8 @@ executable ondesked
                         BoxSizer,
                         Panel,
                         Button,
-                        Textarea
+                        Textarea,
+                        File,
+                        MenuBar,
+                        Menu,
+                        MenuItem

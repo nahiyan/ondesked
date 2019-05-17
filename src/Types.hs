@@ -13,4 +13,6 @@ data Model =
     Model
         { document :: [ Element ]
         , parents  :: [ Int ]
+        , includes :: [ String ]
+        , appName  :: String
         }

@@ -1,1 +1,48 @@
-<app id="NumberIncrementor"><frame id="frame" class="centered visible" title="Number Generator"><box_sizer id="frame_sizer" class="vertical fit-parent"><panel id="panel" grow="1"><box_sizer class="vertical" id="panel_sizer"><panel id="buttons_panel" grow="0" padding="xy-20"><box_sizer id="buttons_panel_sizer" padding="xy-20" class="horizontal"><button id="increment_button" padding="pr-20" onclick="increment">Increment</button><button id="decrement_button">Decrement</button></box_sizer></panel><textarea id="textarea" width="500" height="300" padding="xb-20" grow="1">Hey now brown cow!</textarea></box_sizer></panel></box_sizer></frame></app>
+<app id="NumberIncrementor">
+    <frame id="frame" class="centered visible" title="Number Generator">
+        <menu_bar>
+            <menu name="File">
+                <menu_item>New File</menu_item>
+                <menu_item>Open</menu_item>
+            </menu>
+            <menu name="Edit">
+                <menu_item>New File</menu_item>
+                <menu_item>Open</menu_item>
+                
+                <menu name="hey">
+                    <menu_item>now</menu_item>
+                    <menu_item>brown</menu_item>
+                    <menu_item>cow</menu_item>
+
+                    <menu name="dog">
+                        <menu_item>now</menu_item>
+                        <menu_item>brown</menu_item>
+                        <menu_item>cat</menu_item>
+                    </menu>
+                </menu>
+            </menu>
+            <menu name="Selection">
+                <menu_item>New File</menu_item>
+                <menu_item>Open</menu_item>
+            </menu>
+            <menu name="Help">
+                <menu_item>About</menu_item>
+                <menu_item>Documentation</menu_item>
+            </menu>
+        </menu_bar>
+
+        <box_sizer id="frame_sizer" class="vertical fit-parent">
+            <panel id="panel" grow="1">
+                <box_sizer class="vertical" id="panel_sizer">
+                    <panel id="buttons_panel" grow="0" padding="xy-20">
+                        <box_sizer id="buttons_panel_sizer" padding="xy-20" class="horizontal">
+                            <button id="increment_button" padding="pr-20" onclick="increment">Increment</button>
+                            <button id="decrement_button">Decrement</button>
+                        </box_sizer>
+                    </panel>
+                    <textarea id="textarea" width="500" height="300" padding="xb-20" grow="1">Hello World!</textarea>
+                </box_sizer>
+            </panel>
+        </box_sizer>
+    </frame>
+</app>

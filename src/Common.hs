@@ -1,4 +1,4 @@
-module Common(attributeValue, indentation, elementNameFromId, elementName, hasClass) where
+module Common(attributeValue, indentation, elementNameFromId, elementName, hasClass, elementFromId) where
 
 import           Data.List       as List
 import           Data.List.Split (splitOn)

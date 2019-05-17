@@ -4,16 +4,9 @@ import           Common (elementName, indentation)
 import           Types  (Element (..))
 
 
-toCppHeader :: Element -> Maybe Element -> Int -> String ->String
-toCppHeader element elementParent indentationAmount elementContent =
+toCppHeader :: Element -> String -> Int -> String ->String
+toCppHeader element elementParentName indentationAmount elementContent =
     let
-        elementParentName =
-            case elementParent of
-                Just justElementParent ->
-                    elementName justElementParent
-                Nothing ->
-                    "NULL"
-
         eName =
             elementName element
 

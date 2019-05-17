@@ -6,10 +6,14 @@ import           Data.List            as List
 import           App                  (toCppFooter, toCppHeader)
 import           BoxSizer             (toCppFooter, toCppHeader)
 import           Button               (toCppHeader)
+import           Common               (elementName)
+import           Data.String.HT       (trim)
 import           Frame                (toCppHeader)
+import           Menu                 (toCppFooter, toCppHeader)
+import           MenuBar              (toCppFooter, toCppHeader)
+import           MenuItem             (toCppHeader)
 import           Panel                (toCppHeader)
 import           Textarea             (toCppHeader)
--- import           Common               (attributeValue)
 import           Types                (Element (..), Model (..))
 import           Xeno.DOM             (Content (Element, Text), Node,
                                        attributes, contents, name)
@@ -62,14 +66,16 @@ processNodes nodes model =
                     texts
 
             textsFolded =
-                List.foldl
-                    (\base->
-                        (\contentItem2 ->
-                            base ++ contentItem2
+                trim
+                    (List.foldl
+                        (\base->
+                            (\contentItem2 ->
+                                base ++ contentItem2
+                            )
                         )
+                        ""
+                        textsStringified
                     )
-                    ""
-                    textsStringified
 
             elementContent =
                 if List.length textsFolded == 0 then
@@ -136,6 +142,8 @@ processNodes nodes model =
                 Model
                     { document = newDocument
                     , parents = newParents
+                    , includes = Types.includes model
+                    , appName = Types.appName model
                     }
         in
         processNodes restOfNodes newModel
@@ -231,10 +239,26 @@ parentByElement element model =
             Nothing
 
 
-toCpp' :: [ Element ] -> String -> Model -> Int -> String
+parentNameByElement :: Element -> Model -> String
+parentNameByElement element model =
+    let
+        maybeParent = parentByElement element model
+    in
+    case maybeParent of
+        Just justParent ->
+            if "app" == Types.name justParent then
+                "NULL"
+            else
+                elementName justParent
+
+        Nothing ->
+            "NULL"
+
+
+toCpp' :: [ Element ] -> String -> Model -> Int -> ( String, Model)
 toCpp' elements code model indentationAmount =
     if List.length elements == 0 then
-        code
+        ( code, model )
     else
         let
             element =
@@ -245,12 +269,18 @@ toCpp' elements code model indentationAmount =
 
             children =
                 elementsByParentId (Types.id element) model
+
+            nameOfParent =
+                parentNameByElement element model
         in
         case Types.name element of
             "app" ->
                 let
                     appCodeHeader =
-                        App.toCppHeader element indentationAmount
+                        App.toCppHeader
+                            element
+                            indentationAmount
+                            model
 
                     appFooter =
                         Types.Element
@@ -263,8 +293,8 @@ toCpp' elements code model indentationAmount =
                 in
                 toCpp'
                     (children ++ [ appFooter ] ++ restOfElements)
-                    (code ++ appCodeHeader)
-                    model
+                    (code ++ (fst appCodeHeader))
+                    (snd appCodeHeader)
                     (indentationAmount + 1)
 
             "app_footer" ->
@@ -280,29 +310,10 @@ toCpp' elements code model indentationAmount =
 
             "frame" ->
                 let
-                    elementParent =
-                        case Types.parent element of
-                            Just justParentId ->
-                                let
-                                    e = elementById justParentId model
-                                in
-                                case e of
-                                    Just justE ->
-                                        if "app" == Types.name justE then
-                                            Nothing
-                                        else
-                                            e
-
-                                    Nothing ->
-                                        Nothing
-
-                            Nothing ->
-                                Nothing
-
                     frameCodeHeader =
                         Frame.toCppHeader
                             element
-                            elementParent
+                            nameOfParent
                             indentationAmount
                 in
                 toCpp'
@@ -313,18 +324,10 @@ toCpp' elements code model indentationAmount =
 
             "box_sizer" ->
                 let
-                    elementParent =
-                        case Types.parent element of
-                            Just justParentId ->
-                                elementById justParentId model
-
-                            Nothing ->
-                                Nothing
-
                     boxSizerCodeHeader =
                         BoxSizer.toCppHeader
                             element
-                            elementParent
+                            nameOfParent
                             indentationAmount
 
                     boxSizerFooter =
@@ -344,18 +347,10 @@ toCpp' elements code model indentationAmount =
 
             "box_sizer_footer" ->
                 let
-                    elementParent =
-                        case Types.parent element of
-                            Just justParentId ->
-                                elementById justParentId model
-
-                            Nothing ->
-                                Nothing
-
                     boxSizerCodeFooter =
                         BoxSizer.toCppFooter
                             element
-                            elementParent
+                            nameOfParent
                             children
                             indentationAmount
                 in
@@ -367,13 +362,10 @@ toCpp' elements code model indentationAmount =
 
             "panel" ->
                 let
-                    elementParent =
-                        parentByElement element model
-
                     panelCodeHeader =
                         Panel.toCppHeader
                             element
-                            elementParent
+                            nameOfParent
                             indentationAmount
                 in
                 toCpp'
@@ -384,9 +376,6 @@ toCpp' elements code model indentationAmount =
 
             "button" ->
                 let
-                    elementParent =
-                        parentByElement element model
-
                     elementContent =
                         case Types.content element of
                             Just justElementContent ->
@@ -397,7 +386,7 @@ toCpp' elements code model indentationAmount =
                     buttonCodeHeader =
                         Button.toCppHeader
                             element
-                            elementParent
+                            nameOfParent
                             indentationAmount
                             elementContent
                 in
@@ -409,9 +398,6 @@ toCpp' elements code model indentationAmount =
 
             "textarea" ->
                 let
-                    elementParent =
-                        parentByElement element model
-
                     elementContent =
                         case Types.content element of
                             Just justElementContent ->
@@ -422,13 +408,109 @@ toCpp' elements code model indentationAmount =
                     textareaCodeHeader =
                         Textarea.toCppHeader
                             element
-                            elementParent
+                            nameOfParent
                             indentationAmount
                             elementContent
                 in
                 toCpp'
                     restOfElements
                     (code ++ textareaCodeHeader)
+                    model
+                    indentationAmount
+
+            "menu_bar" ->
+                let
+                    codeAddition =
+                        MenuBar.toCppHeader
+                            element
+                            nameOfParent
+                            indentationAmount
+
+                    footer =
+                        Types.Element
+                            { Types.name = "menu_bar_footer"
+                            , Types.id = Types.id element
+                            , Types.parent = Types.parent element
+                            , Types.content = Nothing
+                            , Types.attributes = Types.attributes element
+                            }
+                in
+                toCpp'
+                    (children ++ [ footer ] ++ restOfElements)
+                    (code ++ codeAddition)
+                    model
+                    indentationAmount
+
+            "menu_bar_footer" ->
+                let
+                    codeAddition =
+                        MenuBar.toCppFooter
+                            element
+                            nameOfParent
+                            indentationAmount
+                            model
+                in
+                toCpp'
+                    restOfElements
+                    (code ++ codeAddition)
+                    model
+                    indentationAmount
+
+            "menu" ->
+                let
+                    codeAddition =
+                        Menu.toCppHeader
+                            element
+                            indentationAmount
+
+                    footer =
+                        Types.Element
+                            { Types.name = "menu_footer"
+                            , Types.id = Types.id element
+                            , Types.parent = Types.parent element
+                            , Types.content = Nothing
+                            , Types.attributes = Types.attributes element
+                            }
+                in
+                toCpp'
+                    (children ++ [ footer ] ++ restOfElements)
+                    (code ++ codeAddition)
+                    model
+                    indentationAmount
+
+            "menu_footer" ->
+                let
+                    codeAddition =
+                        Menu.toCppFooter
+                            element
+                            nameOfParent
+                            indentationAmount
+                            model
+                in
+                toCpp'
+                    restOfElements
+                    (code ++ codeAddition)
+                    model
+                    indentationAmount
+
+            "menu_item" ->
+                let
+                    elementContent =
+                        case Types.content element of
+                            Just justElementContent ->
+                                justElementContent
+                            Nothing ->
+                                "Default"
+
+                    codeAddition =
+                        MenuItem.toCppHeader
+                            nameOfParent
+                            indentationAmount
+                            elementContent
+                in
+                toCpp'
+                    restOfElements
+                    (code ++ codeAddition)
                     model
                     indentationAmount
 
@@ -441,7 +523,7 @@ toCpp' elements code model indentationAmount =
 
 
 
-toCpp :: Model -> String
+toCpp :: Model -> ( String, Model )
 toCpp model =
     if (List.length $ document model) /= 0 then
         let
@@ -450,4 +532,4 @@ toCpp model =
         in
         toCpp' [ firstElement ] "" model 0
     else
-        ""
+        ( "", model )
