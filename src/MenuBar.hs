@@ -4,8 +4,8 @@ import           Common (elementFromId, elementName, indentation)
 import           Types  (Element (..), Model (..))
 
 
-toCppHeader :: Element -> String -> Int -> String
-toCppHeader element elementParentName indentationAmount =
+toCppHeader :: Element -> Int -> String
+toCppHeader element indentationAmount =
     let
         eName =
             elementName element
@@ -17,7 +17,7 @@ toCppHeader element elementParentName indentationAmount =
         ++ "wxMenuBar* "
         ++ eName
         ++ " = new wxMenuBar();"
-        ++ "\n"
+        ++ "\n\n"
 
 toCppFooter :: Element -> String -> Int -> Model -> String
 toCppFooter element elementParentName indentationAmount model =

@@ -15,4 +15,5 @@ data Model =
         , parents  :: [ Int ]
         , includes :: [ String ]
         , appName  :: String
+        , events   :: [ ( String, String ) ]
         }

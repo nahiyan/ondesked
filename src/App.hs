@@ -16,6 +16,7 @@ toCppHeader element indentationAmount model =
                 , document = Types.document model
                 , parents = Types.parents model
                 , includes = Types.includes model
+                , events = Types.events model
                 }
 
         string =
@@ -34,4 +35,6 @@ toCppHeader element indentationAmount model =
 toCppFooter :: Int -> String
 toCppFooter indentationAmount =
     (indentation indentationAmount)
+        ++ "bind_handlers();\n\n"
+        ++ (indentation indentationAmount)
         ++ "return true;\n}"

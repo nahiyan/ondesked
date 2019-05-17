@@ -144,6 +144,7 @@ processNodes nodes model =
                     , parents = newParents
                     , includes = Types.includes model
                     , appName = Types.appName model
+                    , events = Types.events model
                     }
         in
         processNodes restOfNodes newModel
@@ -389,11 +390,12 @@ toCpp' elements code model indentationAmount =
                             nameOfParent
                             indentationAmount
                             elementContent
+                            model
                 in
                 toCpp'
                     restOfElements
-                    (code ++ buttonCodeHeader)
-                    model
+                    (code ++ (fst buttonCodeHeader))
+                    (snd buttonCodeHeader)
                     indentationAmount
 
             "textarea" ->
@@ -423,7 +425,6 @@ toCpp' elements code model indentationAmount =
                     codeAddition =
                         MenuBar.toCppHeader
                             element
-                            nameOfParent
                             indentationAmount
 
                     footer =

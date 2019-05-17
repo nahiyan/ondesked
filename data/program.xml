@@ -1,5 +1,5 @@
 <app id="NumberIncrementor">
-    <frame id="frame" class="centered visible" title="Number Generator">
+    <frame id="frame" class="centered visible" title="Arshan and Zabeer">
         <menu_bar>
             <menu name="File">
                 <menu_item>New File</menu_item>

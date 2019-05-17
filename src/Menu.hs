@@ -18,7 +18,7 @@ toCppHeader element indentationAmount =
         ++ "wxMenu* "
         ++ eName
         ++ " = new wxMenu();"
-        ++ "\n"
+        ++ "\n\n"
 
 
 toCppFooter :: Element -> String -> Int -> Model -> String
@@ -69,7 +69,7 @@ toCppFooter element elementParentName indentationAmount model =
             ++ headerElementAttributeName
             ++ "\")"
             ++ ");"
-            ++ "\n"
+            ++ "\n\n"
     else
         prefix
             ++ elementParentName
@@ -79,4 +79,4 @@ toCppFooter element elementParentName indentationAmount model =
             ++ "\"), "
             ++ headerElementName
             ++ ");"
-            ++ "\n"
+            ++ "\n\n"

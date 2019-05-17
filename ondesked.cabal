@@ -22,7 +22,11 @@ executable ondesked
                         utf8-string,
                         utility-ht,
                         split,
-                        process
+                        process,
+                        hsdev,
+                        text,
+                        casing
+
   default-language:     Haskell2010
   other-modules:        Element,
                         Types,

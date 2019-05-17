@@ -38,6 +38,7 @@ toCppHeader element elementParentName indentationAmount =
     in
     instantiation
         ++ setSizer
+        ++ "\n"
 
 
 flagsFromDirections' :: String -> String -> String
@@ -80,20 +81,6 @@ flagsFromDirections' directions flags =
 flagsFromDirections :: String -> String
 flagsFromDirections directions =
     flagsFromDirections' directions ""
-
-
--- flagsFromPadding :: String -> String
--- flagsFromPadding padding =
---     let
---         paddingSplit = splitOn "-" padding
---     in
---     if List.length paddingSplit /= 0 then
---         let
---             directions = List.head paddingSplit
---         in
---         flagsFromDirections directions
---     else
---         ""
 
 
 toCppFooter :: Element -> String -> [ Element ] -> Int -> String
