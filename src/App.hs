@@ -11,17 +11,12 @@ toCppHeader element indentationAmount model =
             elementName element
 
         newModel =
-            Model
-                { appName = aName
-                , document = Types.document model
-                , parents = Types.parents model
-                , includes = Types.includes model
-                , events = Types.events model
-                }
+            model
+                { appName = aName}
 
         string =
             (indentation indentationAmount)
-                ++ "#include \"main.h\"\n\n"
+                ++ "#include \"types.h\"\n\n"
                 ++ "IMPLEMENT_APP("
                 ++ aName
                 ++ ")\n\n"
@@ -35,6 +30,8 @@ toCppHeader element indentationAmount model =
 toCppFooter :: Int -> String
 toCppFooter indentationAmount =
     (indentation indentationAmount)
-        ++ "bind_handlers();\n\n"
+        ++ "Events::GetInstance()->SetApp(this);\n\n"
         ++ (indentation indentationAmount)
-        ++ "return true;\n}"
+        ++ "port(this);\n\n"
+        ++ (indentation indentationAmount)
+        ++ "return true;\n}\n"

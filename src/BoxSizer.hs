@@ -1,14 +1,14 @@
 module BoxSizer(toCppHeader, toCppFooter) where
 
-import           Common          (attributeValue, elementName, hasClass,
-                                  indentation)
+import           Common          (addHeaderDeclaration, attributeValue,
+                                  elementName, hasClass, indentation)
 import           Data.List       as List
 import           Data.List.Split (splitOn)
-import           Types           (Element (..))
+import           Types           (Element (..), Model (..))
 
 
-toCppHeader :: Element -> String -> Int -> String
-toCppHeader element elementParentName indentationAmount =
+toCppHeader :: Element -> String -> Int -> Model -> ( String, Model )
+toCppHeader element elementParentName indentationAmount model =
     let
         eName =
             elementName element
@@ -24,7 +24,6 @@ toCppHeader element elementParentName indentationAmount =
 
         instantiation =
             prefix
-                ++ "wxBoxSizer* "
                 ++ eName
                 ++ " = new wxBoxSizer("
                 ++ orientation ++ ");\n\n"
@@ -35,10 +34,18 @@ toCppHeader element elementParentName indentationAmount =
                 ++ "->SetSizer("
                 ++ eName
                 ++ ");\n"
+
+        _code =
+            instantiation
+                ++ setSizer
+                ++ "\n"
+
+        newModel =
+            addHeaderDeclaration
+                ("wxBoxSizer* " ++ eName ++ ";")
+                model
     in
-    instantiation
-        ++ setSizer
-        ++ "\n"
+    ( _code, newModel )
 
 
 flagsFromDirections' :: String -> String -> String

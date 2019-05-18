@@ -1,11 +1,11 @@
 module Panel(toCppHeader) where
 
-import           Common (elementName, indentation)
-import           Types  (Element (..))
+import           Common (addHeaderDeclaration, elementName, indentation)
+import           Types  (Element (..), Model (..))
 
 
-toCppHeader :: Element -> String -> Int -> String
-toCppHeader element elementParentName indentationAmount =
+toCppHeader :: Element -> String -> Int -> Model -> ( String, Model )
+toCppHeader element elementParentName indentationAmount model =
     let
         eName =
             elementName element
@@ -15,15 +15,22 @@ toCppHeader element elementParentName indentationAmount =
 
         instantiation =
             prefix
-                ++ "wxPanel* "
                 ++ eName
                 ++ " = new wxPanel("
                 ++ elementParentName
                 ++ ");"
                 ++ "\n"
+
+        _code =
+            instantiation
+                ++ "\n"
+
+        newModel =
+            addHeaderDeclaration
+                ("wxPanel* " ++ eName ++ ";")
+                model
     in
-    instantiation
-        ++ "\n"
+    ( _code, newModel )
 
 -- toCppFooter :: Element -> Int -> String
 -- toCppFooter element indentationAmount =

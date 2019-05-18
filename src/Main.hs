@@ -2,12 +2,9 @@ module Main where
 
 import           Data.ByteString.UTF8 as BSU
 import           Element              (processNodes, toCpp)
-import           File                 (writeEventHandlersHeaderFile,
-                                       writeEventHandlersSourceFile,
-                                       writeEventsHeaderFile,
-                                       writeEventsSourceFile,
-                                       writeMainHeaderFile, writeMainSourceFile,
-                                       writeMakeFile)
+import           File                 (writeEventsSourceFile,
+                                       writeMainSourceFile, writeMakeFile,
+                                       writePortSourceFile, writeTypesFile)
 import           System.IO
 -- import           System.Process       (readProcess)
 import           Types                (Model (..))
@@ -32,6 +29,7 @@ main =
                                 , includes = [ "<wx/wx.h>" ]
                                 , appName = "Default App"
                                 , events = []
+                                , headerDeclarations = []
                                 }
 
                         processedNodes =
@@ -49,12 +47,10 @@ main =
                             snd cpp
                     in
                     ((writeMainSourceFile "app/main.cpp" source)
-                        >> (writeMainHeaderFile "app/main.h" newModel)
                         >> (writeMakeFile "app/Makefile")
                         >> (writeEventsSourceFile "app/events.cpp" newModel)
-                        >> (writeEventsHeaderFile "app/events.h" newModel)
-                        >> (writeEventHandlersSourceFile "app/event_handlers.cpp")
-                        >> (writeEventHandlersHeaderFile "app/event_handlers.h")
+                        >> (writePortSourceFile "app/port.cpp" newModel)
+                        >> (writeTypesFile "app/types.h" newModel)
                         -- >> readProcess "make" ["-C", "app"] ""
                         -- >>= (\_ ->
                         --         putStrLn "Built app successfully!"

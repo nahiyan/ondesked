@@ -35,6 +35,7 @@ toCppHeader element elementParentName indentationAmount elementContent model =
                     ++ ", Events::GetInstance(), "
                     ++ menuItemId
                     ++ ");"
+                    ++ "\n\n"
             else
                 ""
 
@@ -54,6 +55,5 @@ toCppHeader element elementParentName indentationAmount elementContent model =
             ++ elementContent
             ++ "\"));\n"
             ++ _events
-            ++ "\n\n"
     in
     ( _code, newModel )

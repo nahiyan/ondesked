@@ -139,12 +139,9 @@ processNodes nodes model =
                             parentAdditions
 
             newModel =
-                Model
+                model
                     { document = newDocument
                     , parents = newParents
-                    , includes = Types.includes model
-                    , appName = Types.appName model
-                    , events = Types.events model
                     }
         in
         processNodes restOfNodes newModel
@@ -277,78 +274,74 @@ toCpp' elements code model indentationAmount =
         case Types.name element of
             "app" ->
                 let
-                    appCodeHeader =
+                    codeAndModel =
                         App.toCppHeader
                             element
                             indentationAmount
                             model
 
-                    appFooter =
-                        Types.Element
+                    footer =
+                        element
                             { Types.name = "app_footer"
                             , Types.id = 0
-                            , Types.parent = Types.parent element
-                            , Types.content = Types.content element
-                            , Types.attributes = Types.attributes element
                             }
                 in
                 toCpp'
-                    (children ++ [ appFooter ] ++ restOfElements)
-                    (code ++ (fst appCodeHeader))
-                    (snd appCodeHeader)
+                    (children ++ [ footer ] ++ restOfElements)
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
                     (indentationAmount + 1)
 
             "app_footer" ->
                 let
-                    appCodeFooter =
+                    _code =
                         App.toCppFooter indentationAmount
                 in
                 toCpp'
                     restOfElements
-                    (code ++ appCodeFooter)
+                    (code ++ _code)
                     model
                     indentationAmount
 
             "frame" ->
                 let
-                    frameCodeHeader =
+                    codeAndModel =
                         Frame.toCppHeader
                             element
                             nameOfParent
                             indentationAmount
+                            model
                 in
                 toCpp'
                     (children ++ restOfElements)
-                    (code ++ frameCodeHeader)
-                    model
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
                     indentationAmount
 
             "box_sizer" ->
                 let
-                    boxSizerCodeHeader =
+                    codeAndModel =
                         BoxSizer.toCppHeader
                             element
                             nameOfParent
                             indentationAmount
+                            model
 
-                    boxSizerFooter =
-                        Types.Element
+                    footer =
+                        element
                             { Types.name = "box_sizer_footer"
-                            , Types.id = Types.id element
-                            , Types.parent = Types.parent element
                             , Types.content = Nothing
-                            , Types.attributes = Types.attributes element
                             }
                 in
                 toCpp'
-                    (children ++ [ boxSizerFooter ] ++ restOfElements)
-                    (code ++ boxSizerCodeHeader)
-                    model
+                    (children ++ [ footer ] ++ restOfElements)
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
                     indentationAmount
 
             "box_sizer_footer" ->
                 let
-                    boxSizerCodeFooter =
+                    _code =
                         BoxSizer.toCppFooter
                             element
                             nameOfParent
@@ -357,22 +350,23 @@ toCpp' elements code model indentationAmount =
                 in
                 toCpp'
                     restOfElements
-                    (code ++ boxSizerCodeFooter)
+                    (code ++ _code)
                     model
                     indentationAmount
 
             "panel" ->
                 let
-                    panelCodeHeader =
+                    codeAndModel =
                         Panel.toCppHeader
                             element
                             nameOfParent
                             indentationAmount
+                            model
                 in
                 toCpp'
                     (children ++ restOfElements)
-                    (code ++ panelCodeHeader)
-                    model
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
                     indentationAmount
 
             "button" ->
@@ -384,7 +378,7 @@ toCpp' elements code model indentationAmount =
                             Nothing ->
                                 "Default"
 
-                    buttonCodeHeader =
+                    codeAndModel =
                         Button.toCppHeader
                             element
                             nameOfParent
@@ -394,8 +388,8 @@ toCpp' elements code model indentationAmount =
                 in
                 toCpp'
                     restOfElements
-                    (code ++ (fst buttonCodeHeader))
-                    (snd buttonCodeHeader)
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
                     indentationAmount
 
             "textarea" ->
@@ -407,44 +401,43 @@ toCpp' elements code model indentationAmount =
                             Nothing ->
                                 "Default"
 
-                    textareaCodeHeader =
+                    codeAndModel =
                         Textarea.toCppHeader
                             element
                             nameOfParent
                             indentationAmount
                             elementContent
+                            model
                 in
                 toCpp'
                     restOfElements
-                    (code ++ textareaCodeHeader)
-                    model
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
                     indentationAmount
 
             "menu_bar" ->
                 let
-                    codeAddition =
+                    codeAndModel =
                         MenuBar.toCppHeader
                             element
                             indentationAmount
+                            model
 
                     footer =
-                        Types.Element
+                        element
                             { Types.name = "menu_bar_footer"
-                            , Types.id = Types.id element
-                            , Types.parent = Types.parent element
                             , Types.content = Nothing
-                            , Types.attributes = Types.attributes element
                             }
                 in
                 toCpp'
                     (children ++ [ footer ] ++ restOfElements)
-                    (code ++ codeAddition)
-                    model
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
                     indentationAmount
 
             "menu_bar_footer" ->
                 let
-                    codeAddition =
+                    _code =
                         MenuBar.toCppFooter
                             element
                             nameOfParent
@@ -453,35 +446,33 @@ toCpp' elements code model indentationAmount =
                 in
                 toCpp'
                     restOfElements
-                    (code ++ codeAddition)
+                    (code ++ _code)
                     model
                     indentationAmount
 
             "menu" ->
                 let
-                    codeAddition =
+                    codeAndModel =
                         Menu.toCppHeader
                             element
                             indentationAmount
+                            model
 
                     footer =
-                        Types.Element
+                        element
                             { Types.name = "menu_footer"
-                            , Types.id = Types.id element
-                            , Types.parent = Types.parent element
                             , Types.content = Nothing
-                            , Types.attributes = Types.attributes element
                             }
                 in
                 toCpp'
                     (children ++ [ footer ] ++ restOfElements)
-                    (code ++ codeAddition)
-                    model
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
                     indentationAmount
 
             "menu_footer" ->
                 let
-                    codeAddition =
+                    _code =
                         Menu.toCppFooter
                             element
                             nameOfParent
@@ -490,7 +481,7 @@ toCpp' elements code model indentationAmount =
                 in
                 toCpp'
                     restOfElements
-                    (code ++ codeAddition)
+                    (code ++ _code)
                     model
                     indentationAmount
 
@@ -503,7 +494,7 @@ toCpp' elements code model indentationAmount =
                             Nothing ->
                                 "Default"
 
-                    codeAddition =
+                    codeAndModel =
                         MenuItem.toCppHeader
                             element
                             nameOfParent
@@ -513,8 +504,8 @@ toCpp' elements code model indentationAmount =
                 in
                 toCpp'
                     restOfElements
-                    (code ++ (fst codeAddition))
-                    (snd codeAddition)
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
                     indentationAmount
 
             _ ->

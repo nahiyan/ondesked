@@ -1,11 +1,12 @@
 module Frame(toCppHeader) where
 
-import           Common (attributeValue, elementName, hasClass, indentation)
-import           Types  (Element (..))
+import           Common (addHeaderDeclaration, attributeValue, elementName,
+                         hasClass, indentation)
+import           Types  (Element (..), Model (..))
 
 
-toCppHeader :: Element -> String -> Int -> String
-toCppHeader element elementParentName indentationAmount =
+toCppHeader :: Element -> String -> Int -> Model -> ( String, Model )
+toCppHeader element elementParentName indentationAmount model =
     let
         eName =
             elementName element
@@ -22,7 +23,6 @@ toCppHeader element elementParentName indentationAmount =
 
         instantiation =
             prefix
-                ++ "wxFrame* "
                 ++ eName
                 ++ " = new wxFrame("
                 ++ elementParentName
@@ -46,11 +46,19 @@ toCppHeader element elementParentName indentationAmount =
                     ++ "->Show(true);\n"
             else
                 ""
+
+        _code =
+            instantiation
+                ++ center
+                ++ _show
+                ++ "\n"
+
+        newModel =
+            addHeaderDeclaration
+                ("wxFrame* " ++ eName ++ ";")
+                model
     in
-    instantiation
-        ++ center
-        ++ _show
-        ++ "\n"
+    ( _code, newModel )
 
 -- toCppFooter :: Element -> Int -> String
 -- toCppFooter element indentationAmount =

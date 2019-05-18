@@ -1,11 +1,12 @@
 module Textarea(toCppHeader) where
 
-import           Common (attributeValue, elementName, indentation)
-import           Types  (Element (..))
+import           Common (addHeaderDeclaration, attributeValue, elementName,
+                         indentation)
+import           Types  (Element (..), Model (..))
 
 
-toCppHeader :: Element -> String -> Int -> String -> String
-toCppHeader element elementParentName indentationAmount elementContent =
+toCppHeader :: Element -> String -> Int -> String -> Model -> ( String, Model)
+toCppHeader element elementParentName indentationAmount elementContent model =
     let
         eName =
             elementName element
@@ -31,7 +32,6 @@ toCppHeader element elementParentName indentationAmount elementContent =
 
         instantiation =
             prefix
-                ++ "wxTextCtrl* "
                 ++ eName
                 ++ " = new wxTextCtrl("
                 ++ elementParentName
@@ -41,6 +41,14 @@ toCppHeader element elementParentName indentationAmount elementContent =
                 ++ size
                 ++ "wxTE_MULTILINE);"
                 ++ "\n"
+
+        newModel =
+            addHeaderDeclaration
+                ("wxTextCtrl* " ++ eName ++ ";")
+                model
+
+        _code =
+            instantiation
+                ++ "\n"
     in
-    instantiation
-        ++ "\n"
+    ( _code, newModel )

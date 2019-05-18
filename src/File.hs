@@ -1,6 +1,6 @@
-module File(writeMainSourceFile, writeMainHeaderFile, writeMakeFile, writeEventsSourceFile, writeEventsHeaderFile, writeEventHandlersSourceFile, writeEventHandlersHeaderFile) where
+module File(writeMainSourceFile, writeMakeFile, writeEventsSourceFile, writePortSourceFile, writeTypesFile) where
 
-import           Common                 (indentation)
+import           Common                 (indent, indentation)
 import           Data.List              as List
 import           Data.Text              as Text
 import           System.Directory.Paths (fileExists)
@@ -28,36 +28,11 @@ writeMainSourceFile filepath _content =
     writeFile filepath _content
 
 
-writeMainHeaderFile :: FilePath -> Model -> IO ()
-writeMainHeaderFile filepath model =
-    let
-        _content =
-            "#ifndef MAIN_H\n\n"
-                ++ "#define MAIN_H\n\n"
-                ++ "#include \"events.h\"\n"
-                ++ "#include \"event_handlers.h\"\n"
-                ++ processIncludes model
-                ++ "\n"
-                ++ "class "
-                ++ (Types.appName model)
-                ++ " : public wxApp\n"
-                ++ "{\n"
-                ++ "public:\n"
-                ++ (indentation 1)
-                ++ "virtual bool OnInit();"
-                ++ "\n"
-                ++ "};\n\n"
-                ++ "#endif"
-                ++ "\n"
-    in
-    writeFile filepath _content
-
-
 writeMakeFile :: FilePath -> IO ()
 writeMakeFile filepath =
     let
         _content =
-            "main: main.cpp events.cpp event_handlers.cpp\n"
+            "main: main.cpp events.cpp port.cpp\n"
                 ++ "\tg++ `wx-config --libs --cxxflags` *.cpp -o main"
     in
     (fileExists (Text.pack filepath))
@@ -98,14 +73,14 @@ writeEventsSourceFile filepath model =
                             ++ oneIndentation
                             ++ "else\n"
                             ++ (indentation 2)
-                            ++ "this->bindings[binding_index]->function(event);\n"
+                            ++ "this->bindings[binding_index]->function(event, Events::GetInstance()->GetApp());\n"
                             ++ "}\n\n"
                     )
                     (Types.events model)
                 )
 
         _content =
-            "#include \"events.h\"\n\n"
+            "#include \"types.h\"\n\n"
                 ++ "Events* Events::instance;\n\n"
                 ++ "Events* Events::GetInstance() {\n"
                 ++ oneIndentation
@@ -116,6 +91,19 @@ writeEventsSourceFile filepath model =
                 ++ oneIndentation
                 ++ "return Events::instance;\n"
                 ++ "}\n\n"
+                ++ "void Events::SetApp("
+                ++ (Types.appName model)
+                ++ "* app) {\n"
+                ++ oneIndentation
+                ++ "this->app = app;\n"
+                ++ "}"
+                ++ "\n\n"
+                ++ (Types.appName model)
+                ++ "* Events::GetApp() {\n"
+                ++ oneIndentation
+                ++ "return this->app;\n"
+                ++ "}"
+                ++ "\n\n"
                 ++ "void Events::Bind(string name, func_t function) {\n"
                 ++ oneIndentation
                 ++ "Binding* binding = new Binding;\n"
@@ -146,78 +134,17 @@ writeEventsSourceFile filepath model =
     writeFile filepath _content
 
 
-writeEventsHeaderFile :: FilePath -> Model -> IO ()
-writeEventsHeaderFile filepath model =
-    let
-        oneIndentation =
-            indentation 1
-
-        _events =
-            List.foldl
-                (++)
-                ""
-                (List.map
-                    (\e ->
-                        oneIndentation
-                            ++ "void "
-                            ++ (snd e)
-                            ++ "(wxEvent&);\n"
-                    )
-                    (Types.events model)
-                )
-
-        _content =
-            "#ifndef EVENTS_H\n\n"
-                ++ "#define EVENTS_H\n\n"
-                ++ "#include <iostream>\n"
-                ++ "#include <vector>\n"
-                ++ "#include <string>\n"
-                ++ "#include <wx/wx.h>\n\n"
-
-                ++ "using std::string;\n"
-                ++ "using std::vector;\n"
-                ++ "using std::cout;\n"
-                ++ "using std::endl;\n\n"
-
-                ++ "typedef void (*func_t)(wxEvent&);\n\n"
-
-                ++ "struct Binding {\n"
-                ++ oneIndentation
-                ++ "string name;\n"
-                ++ oneIndentation
-                ++ "func_t function;\n"
-                ++ "};\n\n"
-
-                ++ "class Events {\n"
-                ++ oneIndentation
-                ++ "vector<Binding*> bindings;\n\n"
-                ++ "public:\n"
-                ++ oneIndentation
-                ++ "static Events* instance;\n"
-                ++ oneIndentation
-                ++ "static Events* GetInstance();\n\n"
-                ++ oneIndentation
-                ++ "void Bind(string, func_t);\n"
-                ++ oneIndentation
-                ++ "int GetBinding(string);\n\n"
-                ++ _events
-                ++ "};\n\n"
-                ++ "#endif"
-                ++ "\n"
-
-    in
-    writeFile filepath _content
-
-
-writeEventHandlersSourceFile :: FilePath -> IO ()
-writeEventHandlersSourceFile filepath =
+writePortSourceFile :: FilePath -> Model -> IO ()
+writePortSourceFile filepath model =
     let
         oneIndentation =
             indentation 1
 
         _content =
-            "#include \"event_handlers.h\"\n\n"
-                ++ "void bind_handlers() {\n"
+            "#include \"types.h\"\n\n"
+                ++ "void port("
+                ++ (Types.appName model)
+                ++ "* app) {\n"
                 ++ oneIndentation
                 ++ "\n"
                 ++ "}\n"
@@ -227,29 +154,86 @@ writeEventHandlersSourceFile filepath =
         >>= (\fe ->
                 if fe == False then
                     (writeFile filepath _content)
-                        >> (putStrLn "event_handlers.cpp created.")
+                        >> (putStrLn "port.cpp created.")
                 else
                     return ()
             )
 
 
-writeEventHandlersHeaderFile :: FilePath -> IO ()
-writeEventHandlersHeaderFile filepath =
+writeTypesFile :: FilePath -> Model -> IO ()
+writeTypesFile filepath model =
     let
+        declarations =
+            List.foldl
+                (\base ->
+                    (\declaration ->
+                        base
+                            ++ (indentation 1)
+                            ++ declaration
+                            ++ "\n"
+                    )
+                )
+                ""
+                (Types.headerDeclarations model)
+
+        _events =
+            List.foldl
+                (++)
+                ""
+                (List.map
+                    (\e ->
+                        (indentation 1)
+                            ++ "void "
+                            ++ (snd e)
+                            ++ "(wxEvent&);\n"
+                    )
+                    (Types.events model)
+                )
+
+        _appName =
+            Types.appName model
+
         _content =
-            "#ifndef HANDLE_EVENTS_H\n\n"
-                ++ "#define HANDLE_EVENTS_H\n\n"
-                ++ "#include \"events.h\"\n\n"
-                ++ "void bind_handlers();\n\n"
+            "#ifndef TYPES_H\n\n"
+                ++ "#define TYPES_H\n\n"
+                ++ "#include <iostream>\n"
+                ++ "#include <vector>\n"
+                ++ "#include <string>\n"
+                ++ (processIncludes model)
+                ++ "\n"
+                ++ "using std::string;\n"
+                ++ "using std::vector;\n"
+                ++ "using std::cout;\n"
+                ++ "using std::endl;\n\n"
+                ++ "class "
+                ++ _appName
+                ++ " : public wxApp\n"
+                ++ "{\n"
+                ++ "public:\n"
+                ++ (indent 1 "virtual bool OnInit();\n\n")
+                ++ declarations
+                ++ "};\n\n"
+                ++ "typedef void (*func_t)(wxEvent&, "
+                ++ _appName
+                ++ "*);\n\n"
+                ++ "struct Binding {\n"
+                ++ (indent 1 "string name;\n")
+                ++ (indent 1 "func_t function;\n")
+                ++ "};\n\n"
+                ++ "class Events {\n"
+                ++ (indent 1 "vector<Binding*> bindings;\n")
+                ++ (indent 1 _appName ++ "* app;\n\n")
+                ++ "public:\n"
+                ++ (indent 1 "static Events* instance;\n")
+                ++ (indent 1 "static Events* GetInstance();\n\n")
+                ++ (indent 1 "void SetApp(" ++ _appName ++ "*);\n")
+                ++ (indent 1 _appName ++ "* GetApp();\n")
+                ++ (indent 1 "void Bind(string, func_t);\n")
+                ++ (indent 1 "int GetBinding(string);\n\n")
+                ++ _events
+                ++ "};\n\n"
+                ++ "void port(" ++ _appName ++ "*);\n\n"
                 ++ "#endif\n"
 
     in
-    (fileExists (Text.pack filepath))
-        >>= (\fe ->
-                if fe == False then
-                    (writeFile filepath _content)
-                        >> (putStrLn "event_handlers.h created.")
-                else
-                    return ()
-            )
-
+    writeFile filepath _content

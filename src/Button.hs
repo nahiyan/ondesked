@@ -1,7 +1,7 @@
 module Button(toCppHeader) where
 
-import           Common (addEvent, attributeValue, elementName, eventMethodName,
-                         indentation)
+import           Common (addEvent, addHeaderDeclaration, attributeValue,
+                         elementName, eventMethodName, indentation)
 import           Types  (Element (..), Model (..))
 
 
@@ -16,7 +16,6 @@ toCppHeader element elementParentName indentationAmount elementContent model =
 
         instantiation =
             prefix
-                ++ "wxButton* "
                 ++ eName
                 ++ " = new wxButton("
                 ++ elementParentName
@@ -53,5 +52,10 @@ toCppHeader element elementParentName indentationAmount elementContent model =
                     addEvent justOnclick _eventMethodName model
                 Nothing ->
                     model
+
+        newModel2 =
+            addHeaderDeclaration
+                ("wxButton* " ++ eName ++ ";")
+                newModel
     in
-    ( string, newModel )
+    ( string, newModel2 )

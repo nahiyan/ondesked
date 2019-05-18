@@ -1,4 +1,4 @@
-module Common(attributeValue, indentation, elementNameFromId, elementName, hasClass, elementFromId, addEvent, hasAttribute, eventMethodName) where
+module Common(attributeValue, indentation, elementNameFromId, elementName, hasClass, elementFromId, addEvent, hasAttribute, eventMethodName, addHeaderDeclaration, indent) where
 
 import           Data.List       as List
 import           Data.List.Split (splitOn)
@@ -145,13 +145,8 @@ addEvent _name eName model =
             (Types.events model)
                 ++ [ ( _name, eName ) ]
     in
-    Model
-        { document = Types.document model
-        , parents  = Types.parents model
-        , includes = Types.includes model
-        , appName  = Types.appName model
-        , events   = newEvents
-        }
+    model
+        { events   = newEvents }
 
 
 eventMethodName :: Element -> String -> String
@@ -162,3 +157,20 @@ eventMethodName element suffix =
                 (elementName element) ++ suffix
             )
         )
+
+
+addHeaderDeclaration :: String -> Model -> Model
+addHeaderDeclaration declaration model =
+    let
+        newHeaderDeclarations =
+            (Types.headerDeclarations model)
+                ++ [ declaration ]
+    in
+    model
+        { headerDeclarations = newHeaderDeclarations }
+
+
+indent :: Int -> String -> String
+indent amount string =
+    (indentation amount)
+        ++ string

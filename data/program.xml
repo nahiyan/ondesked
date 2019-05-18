@@ -6,8 +6,8 @@
                 <menu_item onclick="open_file">Open</menu_item>
             </menu>
             <menu name="Edit">
-                <menu_item>New File</menu_item>
-                <menu_item>Open</menu_item>
+                <menu_item onclick="increment">Increment</menu_item>
+                <menu_item onclick="decrement">Decrement</menu_item>
                 
                 <menu name="hey">
                     <menu_item>now</menu_item>
@@ -37,7 +37,7 @@
                     <panel id="buttons_panel" grow="0" padding="xy-20">
                         <box_sizer id="buttons_panel_sizer" padding="xy-20" class="horizontal">
                             <button id="increment_button" padding="pr-20" onclick="increment">Increment</button>
-                            <button id="decrement_button">Decrement</button>
+                            <button id="decrement_button" onclick="decrement">Decrement</button>
                         </box_sizer>
                     </panel>
                     <textarea id="textarea" width="500" height="300" padding="xb-20" grow="1">Hello World!</textarea>

@@ -1,24 +1,31 @@
 module Menu(toCppHeader, toCppFooter) where
 
-import           Common (attributeValue, elementFromId, elementName,
-                         indentation)
+import           Common (addHeaderDeclaration, attributeValue, elementFromId,
+                         elementName, indentation)
 import           Types  (Element (..), Model (..))
 
 
-toCppHeader :: Element -> Int -> String
-toCppHeader element indentationAmount =
+toCppHeader :: Element -> Int -> Model -> ( String, Model )
+toCppHeader element indentationAmount model =
     let
         eName =
             elementName element
 
         prefix =
             indentation indentationAmount
+
+        newModel =
+            addHeaderDeclaration
+                ("wxMenu* " ++ eName ++ ";")
+                model
+
+        _code =
+            prefix
+                ++ eName
+                ++ " = new wxMenu();"
+                ++ "\n\n"
     in
-    prefix
-        ++ "wxMenu* "
-        ++ eName
-        ++ " = new wxMenu();"
-        ++ "\n\n"
+    ( _code, newModel )
 
 
 toCppFooter :: Element -> String -> Int -> Model -> String

@@ -11,9 +11,10 @@ data Element =
 
 data Model =
     Model
-        { document :: [ Element ]
-        , parents  :: [ Int ]
-        , includes :: [ String ]
-        , appName  :: String
-        , events   :: [ ( String, String ) ]
+        { document           :: [ Element ]
+        , parents            :: [ Int ]
+        , includes           :: [ String ]
+        , appName            :: String
+        , events             :: [ ( String, String ) ]
+        , headerDeclarations :: [ String ]
         }
