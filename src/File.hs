@@ -57,10 +57,17 @@ writeMakeFile :: FilePath -> IO ()
 writeMakeFile filepath =
     let
         _content =
-            "main: main.cpp\n"
+            "main: main.cpp events.cpp event_handlers.cpp\n"
                 ++ "\tg++ `wx-config --libs --cxxflags` *.cpp -o main"
     in
-    writeFile filepath _content
+    (fileExists (Text.pack filepath))
+        >>= (\fe ->
+                if fe == False then
+                    (writeFile filepath _content)
+                        >> (putStrLn "Makefile created.")
+                else
+                    return ()
+            )
 
 
 writeEventsSourceFile :: FilePath -> Model -> IO ()
@@ -92,7 +99,7 @@ writeEventsSourceFile filepath model =
                             ++ "else\n"
                             ++ (indentation 2)
                             ++ "this->bindings[binding_index]->function(event);\n"
-                            ++ "}"
+                            ++ "}\n\n"
                     )
                     (Types.events model)
                 )
@@ -219,7 +226,8 @@ writeEventHandlersSourceFile filepath =
     (fileExists (Text.pack filepath))
         >>= (\fe ->
                 if fe == False then
-                    writeFile filepath _content
+                    (writeFile filepath _content)
+                        >> (putStrLn "event_handlers.cpp created.")
                 else
                     return ()
             )
@@ -239,7 +247,8 @@ writeEventHandlersHeaderFile filepath =
     (fileExists (Text.pack filepath))
         >>= (\fe ->
                 if fe == False then
-                    writeFile filepath _content
+                    (writeFile filepath _content)
+                        >> (putStrLn "event_handlers.h created.")
                 else
                     return ()
             )

@@ -7,7 +7,7 @@ data Element =
         , parent     :: Maybe Int
         , content    :: Maybe String
         , attributes :: [ (String, String) ]
-        } deriving (Show)
+        }
 
 data Model =
     Model

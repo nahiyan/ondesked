@@ -505,14 +505,16 @@ toCpp' elements code model indentationAmount =
 
                     codeAddition =
                         MenuItem.toCppHeader
+                            element
                             nameOfParent
                             indentationAmount
                             elementContent
+                            model
                 in
                 toCpp'
                     restOfElements
-                    (code ++ codeAddition)
-                    model
+                    (code ++ (fst codeAddition))
+                    (snd codeAddition)
                     indentationAmount
 
             _ ->

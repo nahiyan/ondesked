@@ -3,7 +3,7 @@
         <menu_bar>
             <menu name="File">
                 <menu_item>New File</menu_item>
-                <menu_item>Open</menu_item>
+                <menu_item onclick="open_file">Open</menu_item>
             </menu>
             <menu name="Edit">
                 <menu_item>New File</menu_item>

@@ -1,7 +1,8 @@
-module Common(attributeValue, indentation, elementNameFromId, elementName, hasClass, elementFromId) where
+module Common(attributeValue, indentation, elementNameFromId, elementName, hasClass, elementFromId, addEvent, hasAttribute, eventMethodName) where
 
 import           Data.List       as List
 import           Data.List.Split (splitOn)
+import           Text.Casing     (fromAny, toPascal)
 import           Types           (Element (..), Model (..))
 
 attributeValue :: String -> Element -> Maybe String
@@ -71,7 +72,7 @@ elementNameFromId elementId model =
     case searchResult of
         Just justElement ->
             let
-                elementId =
+                _elementId =
                     Types.id justElement
 
                 attributeId =
@@ -82,7 +83,7 @@ elementNameFromId elementId model =
                     Just justAttributeId
 
                 Nothing ->
-                    Just ((Types.name justElement) ++ (show elementId))
+                    Just ((Types.name justElement) ++ (show _elementId))
         Nothing ->
             Nothing
 
@@ -126,3 +127,38 @@ hasClass _class element =
         True
     else
         False
+
+
+hasAttribute :: String -> Element -> Bool
+hasAttribute attribute element =
+    case attributeValue attribute element of
+        Just _ ->
+            True
+        Nothing ->
+            False
+
+
+addEvent :: String -> String -> Model -> Model
+addEvent _name eName model =
+    let
+        newEvents =
+            (Types.events model)
+                ++ [ ( _name, eName ) ]
+    in
+    Model
+        { document = Types.document model
+        , parents  = Types.parents model
+        , includes = Types.includes model
+        , appName  = Types.appName model
+        , events   = newEvents
+        }
+
+
+eventMethodName :: Element -> String -> String
+eventMethodName element suffix =
+    toPascal
+        (fromAny
+            (
+                (elementName element) ++ suffix
+            )
+        )

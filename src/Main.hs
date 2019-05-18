@@ -59,10 +59,9 @@ main =
                         -- >>= (\_ ->
                         --         putStrLn "Built app successfully!"
                         --     )
+                        -- >> putStrLn "Running app..."
                         -- >> readProcess "./app/main" [] ""
-                        -- >>= (\_ ->
-                        --         putStrLn "Running app..."
-                        --     )
+                        -- >>= putStrLn
                     )
 
                 Left exception ->
