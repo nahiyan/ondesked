@@ -67,6 +67,37 @@
                     <button padding="xy-10">3</button>
                 </box_sizer>
             </panel>
+
+            <panel>
+                <box_sizer class="horizontal">
+                    <table padding="xy-10" grow="1">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Hey</td>
+                                <td>Now</td>
+                                <td>Brown</td>
+                            </tr>
+                            <tr>
+                                <td>Hey</td>
+                                <td>Now</td>
+                                <td>Brown</td>
+                            </tr>
+                            <tr>
+                                <td>Hey</td>
+                                <td>Now</td>
+                                <td>Brown</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </box_sizer>
+            </panel>
         </box_sizer>
     </frame>
 </app>

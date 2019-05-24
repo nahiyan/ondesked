@@ -1,7 +1,7 @@
 module CollapsiblePanePane(toCppHeader) where
 
-import           Common (addHeaderDeclaration, addInclude, attributeValue,
-                         elementName, indentation)
+import           Common (addHeaderDeclaration, attributeValue, elementName,
+                         indentation)
 import           Types  (Element (..), Model (..))
 
 

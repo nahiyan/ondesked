@@ -44,4 +44,8 @@ executable ondesked
                         Textfield,
                         CollapsiblePane,
                         CollapsiblePanePane,
+                        Table,
+                        TableColumn,
+                        TableRow,
+                        TableItem,
                         MenuItem

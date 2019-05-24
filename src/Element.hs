@@ -1,4 +1,4 @@
-module Element(processNodes, toCpp, elementById) where
+module Element(processNodes, toCpp, elementById, greatGrandParentNameByElement) where
 
 import           App                  (toCppFooter, toCppHeader)
 import           BoxSizer             (toCppFooter, toCppHeader)
@@ -9,12 +9,16 @@ import           Common               (elementName)
 import           Data.ByteString.UTF8 as BSU
 import           Data.List            as List
 import           Data.String.HT       (trim)
-import           Debug.Trace          (trace)
+-- import           Debug.Trace          (trace)
 import           Frame                (toCppHeader)
 import           Menu                 (toCppFooter, toCppHeader)
 import           MenuBar              (toCppFooter, toCppHeader)
 import           MenuItem             (toCppHeader)
 import           Panel                (toCppHeader)
+import           Table                (toCppHeader)
+import           TableColumn          (toCppHeader)
+import           TableItem            (toCppHeader)
+import           TableRow             (toCppFooter, toCppHeader)
 import           Text                 (toCppHeader)
 import           Textarea             (toCppHeader)
 import           Textfield            (toCppHeader)
@@ -177,22 +181,6 @@ highestId elements =
         highestId' elements (Types.id (head elements))
 
 
-elementsByParentId :: Int -> Model -> [ Element ]
-elementsByParentId elementId model =
-    List.filter
-        (\element ->
-            case Types.parent element of
-                Just justParent ->
-                    if justParent == elementId then
-                        True
-                    else
-                        False
-                Nothing ->
-                    False
-        )
-        (document model)
-
-
 elementById :: Int -> Model -> Maybe Element
 elementById elementId model =
     let
@@ -257,6 +245,57 @@ parentNameByElement element model =
             "NULL"
 
 
+elementsByParentId :: Int -> Model -> [ Element ]
+elementsByParentId elementId model =
+    List.filter
+        (\element ->
+            case Types.parent element of
+                Just justParent ->
+                    if justParent == elementId then
+                        True
+                    else
+                        False
+                Nothing ->
+                    False
+        )
+        (document model)
+
+
+greatGrandParentNameByElement :: Element -> Model -> String
+greatGrandParentNameByElement element model =
+    case parentByElement element model of
+        Just _parent ->
+            case parentByElement _parent model of
+                Just _grandParent ->
+                    case parentByElement _grandParent model of
+                        Just _greatGrandParent ->
+                            elementName _greatGrandParent
+
+                        Nothing ->
+                            "NULL"
+
+                Nothing ->
+                    "NULL"
+
+        Nothing ->
+            "NULL"
+
+
+grandParentNameByElement :: Element -> Model -> String
+grandParentNameByElement element model =
+    case parentByElement element model of
+        Just _parent ->
+            case parentByElement _parent model of
+                Just _grandParent ->
+                    elementName _grandParent
+
+                Nothing ->
+                    "NULL"
+
+        Nothing ->
+            "NULL"
+
+
 toCpp' :: [ Element ] -> String -> Model -> Int -> ( String, Model)
 toCpp' elements code model indentationAmount =
     if List.length elements == 0 then
@@ -281,6 +320,12 @@ toCpp' elements code model indentationAmount =
                         justElementContent
                     Nothing ->
                         "Default"
+
+            nameOfGreatGrandParent =
+                greatGrandParentNameByElement element model
+
+            nameOfGrandParent =
+                grandParentNameByElement element model
         in
         case Types.name element of
             "app" ->
@@ -377,6 +422,100 @@ toCpp' elements code model indentationAmount =
                 in
                 toCpp'
                     (children ++ restOfElements)
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
+                    indentationAmount
+
+            "table" ->
+                let
+                    codeAndModel =
+                        Table.toCppHeader
+                            element
+                            nameOfParent
+                            indentationAmount
+                            model
+                in
+                toCpp'
+                    (children ++ restOfElements)
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
+                    indentationAmount
+
+            "thead" ->
+                toCpp'
+                    (children ++ restOfElements)
+                    code
+                    model
+                    indentationAmount
+
+            "tr" ->
+                let
+                    codeAndModel =
+                        TableRow.toCppHeader
+                            element
+                            nameOfGrandParent
+                            indentationAmount
+                            model
+
+                    footer =
+                        element
+                            { Types.name = "tr_footer" }
+                in
+                toCpp'
+                    (children ++ [ footer ] ++ restOfElements)
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
+                    indentationAmount
+
+            "tr_footer" ->
+                let
+                    codeAndModel =
+                        TableRow.toCppFooter
+                            element
+                            nameOfGrandParent
+                            indentationAmount
+                            model
+                in
+                toCpp'
+                    (restOfElements)
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
+                    indentationAmount
+
+            "tbody" ->
+                toCpp'
+                    (children ++ restOfElements)
+                    code
+                    model
+                    indentationAmount
+
+            "th" ->
+                let
+                    codeAndModel =
+                        TableColumn.toCppHeader
+                            nameOfGreatGrandParent
+                            indentationAmount
+                            elementContent
+                            model
+                in
+                toCpp'
+                    restOfElements
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
+                    indentationAmount
+
+            "td" ->
+                let
+                    codeAndModel =
+                        TableItem.toCppHeader
+                            element
+                            nameOfGreatGrandParent
+                            indentationAmount
+                            elementContent
+                            model
+                in
+                toCpp'
+                    restOfElements
                     (code ++ (fst codeAndModel))
                     (snd codeAndModel)
                     indentationAmount
