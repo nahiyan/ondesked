@@ -1,4 +1,4 @@
-module Common(attributeValue, indentation, elementNameFromId, elementName, hasClass, elementFromId, addEvent, hasAttribute, eventMethodName, addHeaderDeclaration, indent) where
+module Common(attributeValue, indentation, elementNameFromId, elementName, hasClass, elementFromId, addEvent, hasAttribute, eventMethodName, addHeaderDeclaration, indent, addInclude) where
 
 import           Data.List       as List
 import           Data.List.Split (splitOn)
@@ -174,3 +174,10 @@ indent :: Int -> String -> String
 indent amount string =
     (indentation amount)
         ++ string
+
+
+addInclude :: String -> Model -> Model
+addInclude include model =
+    model
+        { includes = (Types.includes model) ++ [ include ]
+        }

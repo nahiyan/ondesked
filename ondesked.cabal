@@ -40,4 +40,8 @@ executable ondesked
                         File,
                         MenuBar,
                         Menu,
+                        Text,
+                        Textfield,
+                        CollapsiblePane,
+                        CollapsiblePanePane,
                         MenuItem

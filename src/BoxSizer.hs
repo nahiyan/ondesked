@@ -1,7 +1,8 @@
 module BoxSizer(toCppHeader, toCppFooter) where
 
 import           Common          (addHeaderDeclaration, attributeValue,
-                                  elementName, hasClass, indentation)
+                                  elementFromId, elementName, hasClass,
+                                  indentation)
 import           Data.List       as List
 import           Data.List.Split (splitOn)
 import           Types           (Element (..), Model (..))
@@ -90,14 +91,18 @@ flagsFromDirections directions =
     flagsFromDirections' directions ""
 
 
-toCppFooter :: Element -> String -> [ Element ] -> Int -> String
-toCppFooter element elementParentName children indentationAmount =
+toCppFooter :: Element -> String -> [ Element ] -> Int -> Model -> String
+toCppFooter element elementParentName children indentationAmount model =
     let
-        eName =
-            elementName element
-
         prefix =
             indentation indentationAmount
+
+        headerElementName =
+            case elementFromId (Types.id element) model of
+                Just justHeaderElement ->
+                    elementName justHeaderElement
+                Nothing ->
+                    "NULL"
 
         additions =
             List.foldl
@@ -140,7 +145,7 @@ toCppFooter element elementParentName children indentationAmount =
                                 )
                         in
                         prefix
-                            ++ eName
+                            ++ headerElementName
                             ++ "->Add("
                             ++ (elementName child)
                             ++ ", "

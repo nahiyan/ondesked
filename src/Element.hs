@@ -1,19 +1,23 @@
 module Element(processNodes, toCpp, elementById) where
 
-import           Data.ByteString.UTF8 as BSU
-import           Data.List            as List
--- import           Debug.Trace          (trace)
 import           App                  (toCppFooter, toCppHeader)
 import           BoxSizer             (toCppFooter, toCppHeader)
 import           Button               (toCppHeader)
+import           CollapsiblePane      (toCppHeader)
+import           CollapsiblePanePane  (toCppHeader)
 import           Common               (elementName)
+import           Data.ByteString.UTF8 as BSU
+import           Data.List            as List
 import           Data.String.HT       (trim)
+import           Debug.Trace          (trace)
 import           Frame                (toCppHeader)
 import           Menu                 (toCppFooter, toCppHeader)
 import           MenuBar              (toCppFooter, toCppHeader)
 import           MenuItem             (toCppHeader)
 import           Panel                (toCppHeader)
+import           Text                 (toCppHeader)
 import           Textarea             (toCppHeader)
+import           Textfield            (toCppHeader)
 import           Types                (Element (..), Model (..))
 import           Xeno.DOM             (Content (Element, Text), Node,
                                        attributes, contents, name)
@@ -270,6 +274,13 @@ toCpp' elements code model indentationAmount =
 
             nameOfParent =
                 parentNameByElement element model
+
+            elementContent =
+                case Types.content element of
+                    Just justElementContent ->
+                        justElementContent
+                    Nothing ->
+                        "Default"
         in
         case Types.name element of
             "app" ->
@@ -347,6 +358,7 @@ toCpp' elements code model indentationAmount =
                             nameOfParent
                             children
                             indentationAmount
+                            model
                 in
                 toCpp'
                     restOfElements
@@ -371,13 +383,6 @@ toCpp' elements code model indentationAmount =
 
             "button" ->
                 let
-                    elementContent =
-                        case Types.content element of
-                            Just justElementContent ->
-                                justElementContent
-                            Nothing ->
-                                "Default"
-
                     codeAndModel =
                         Button.toCppHeader
                             element
@@ -394,15 +399,24 @@ toCpp' elements code model indentationAmount =
 
             "textarea" ->
                 let
-                    elementContent =
-                        case Types.content element of
-                            Just justElementContent ->
-                                justElementContent
-                            Nothing ->
-                                "Default"
-
                     codeAndModel =
                         Textarea.toCppHeader
+                            element
+                            nameOfParent
+                            indentationAmount
+                            elementContent
+                            model
+                in
+                toCpp'
+                    restOfElements
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
+                    indentationAmount
+
+            "textfield" ->
+                let
+                    codeAndModel =
+                        Textfield.toCppHeader
                             element
                             nameOfParent
                             indentationAmount
@@ -431,6 +445,85 @@ toCpp' elements code model indentationAmount =
                 in
                 toCpp'
                     (children ++ [ footer ] ++ restOfElements)
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
+                    indentationAmount
+
+            "colpane" ->
+                let
+                    codeAndModel =
+                        CollapsiblePane.toCppHeader
+                            element
+                            nameOfParent
+                            indentationAmount
+                            model
+
+                    colPanePaneId =
+                        case highestId $ Types.document model of
+                            Just _highestId ->
+                                _highestId + 1
+
+                            Nothing ->
+                                1
+
+                    colPanePaneElement =
+                        element
+                            { Types.name = "colpanepane"
+                            , Types.parent = Just $ Types.id element
+                            , Types.id = colPanePaneId
+                            }
+
+                    _children =
+                        [ colPanePaneElement
+                        ]
+                            ++ (List.map
+                                   (\e ->
+                                       e
+                                           { Types.parent = Just colPanePaneId }
+                                   )
+                                   children
+                               )
+
+                    newModel =
+                        (snd codeAndModel)
+                            { Types.document = (Types.document (snd codeAndModel)) ++ [ colPanePaneElement ] }
+
+                    newModel2 =
+                        newModel
+                            { Types.document =
+                                List.map
+                                    (\e ->
+                                        case Types.parent e of
+                                            Just _parent ->
+                                                if _parent == Types.id element && Types.id e /= colPanePaneId then
+                                                    e
+                                                        { Types.parent = Just colPanePaneId }
+                                                else
+                                                    e
+
+                                            Nothing ->
+                                                e
+                                    )
+                                    $ Types.document newModel
+                            }
+                in
+                toCpp'
+                    (_children ++ restOfElements)
+                    (code ++ (fst codeAndModel))
+                    newModel2
+                    indentationAmount
+
+            "colpanepane" ->
+                let
+                    codeAndModel =
+                        CollapsiblePanePane.toCppHeader
+                            element
+                            nameOfParent
+                            indentationAmount
+                            model
+                in
+                toCpp'
+                    (restOfElements)
                     (code ++ (fst codeAndModel))
                     (snd codeAndModel)
                     indentationAmount
@@ -487,15 +580,24 @@ toCpp' elements code model indentationAmount =
 
             "menu_item" ->
                 let
-                    elementContent =
-                        case Types.content element of
-                            Just justElementContent ->
-                                justElementContent
-                            Nothing ->
-                                "Default"
-
                     codeAndModel =
                         MenuItem.toCppHeader
+                            element
+                            nameOfParent
+                            indentationAmount
+                            elementContent
+                            model
+                in
+                toCpp'
+                    restOfElements
+                    (code ++ (fst codeAndModel))
+                    (snd codeAndModel)
+                    indentationAmount
+
+            "text" ->
+                let
+                    codeAndModel =
+                        Text.toCppHeader
                             element
                             nameOfParent
                             indentationAmount

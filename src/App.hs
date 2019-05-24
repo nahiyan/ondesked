@@ -1,14 +1,15 @@
 module App(toCppHeader, toCppFooter) where
 
-import           Common (elementName, indentation)
-import           Types  (Element (..), Model (..))
+import           Common      (elementName, indentation)
+import           Text.Casing (fromAny, toPascal)
+import           Types       (Element (..), Model (..))
 
 
 toCppHeader :: Element -> Int -> Model -> ( String, Model )
 toCppHeader element indentationAmount model =
     let
         aName =
-            elementName element
+            toPascal $ fromAny $ elementName element
 
         newModel =
             model

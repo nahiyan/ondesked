@@ -1,5 +1,5 @@
-<app id="NumberIncrementor">
-    <frame id="frame" class="centered visible" title="Arshan and Zabeer">
+<app id="calculator">
+    <frame class="centered visible" title="Calculator">
         <menu_bar>
             <menu name="File">
                 <menu_item>New File</menu_item>
@@ -31,16 +31,40 @@
             </menu>
         </menu_bar>
 
-        <box_sizer id="frame_sizer" class="vertical fit-parent">
-            <panel id="panel" grow="1">
-                <box_sizer class="vertical" id="panel_sizer">
-                    <panel id="buttons_panel" grow="0" padding="xy-20">
-                        <box_sizer id="buttons_panel_sizer" padding="xy-20" class="horizontal">
-                            <button id="increment_button" padding="pr-20" onclick="increment">Increment</button>
-                            <button id="decrement_button" onclick="decrement">Decrement</button>
+        <box_sizer class="vertical fit-parent">
+            <panel>
+                <box_sizer class="horizontal">
+                    <text padding="xy-10">Hello World!</text>
+                    <textfield padding="xy-10" grow="1">Hello World!</textfield>
+
+                    <colpane padding="xy-10">
+                        <box_sizer class="vertical">
+                            <text>Hello World!</text>
+                            <text>Hello World!</text>
+                            <text>Hello World!</text>
                         </box_sizer>
-                    </panel>
-                    <textarea id="textarea" width="500" height="300" padding="xb-20" grow="1">Hello World!</textarea>
+                    </colpane>
+                </box_sizer>
+            </panel>
+            <panel>
+                <box_sizer class="horizontal">
+                    <button padding="xy-10">7</button>
+                    <button padding="xy-10">8</button>
+                    <button padding="xy-10">9</button>
+                </box_sizer>
+            </panel>
+            <panel>
+                <box_sizer class="horizontal">
+                    <button padding="xy-10">4</button>
+                    <button padding="xy-10">5</button>
+                    <button padding="xy-10">6</button>
+                </box_sizer>
+            </panel>
+            <panel>
+                <box_sizer class="horizontal">
+                    <button padding="xy-10">1</button>
+                    <button padding="xy-10">2</button>
+                    <button padding="xy-10">3</button>
                 </box_sizer>
             </panel>
         </box_sizer>
