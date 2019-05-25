@@ -80,22 +80,61 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Hey</td>
-                                <td>Now</td>
-                                <td>Brown</td>
+                                <td>Arshan</td>
+                                <td>Arshan2</td>
+                                <td>Arshan3</td>
                             </tr>
                             <tr>
-                                <td>Hey</td>
-                                <td>Now</td>
-                                <td>Brown</td>
+                                <td>Arshan4</td>
+                                <td>Arshan5</td>
+                                <td>Arshan6</td>
                             </tr>
                             <tr>
-                                <td>Hey</td>
-                                <td>Now</td>
-                                <td>Brown</td>
+                                <td>Arshan7</td>
+                                <td>Arshan8</td>
+                                <td>Arshan9</td>
                             </tr>
                         </tbody>
                     </table>
+                </box_sizer>
+            </panel>
+
+            <panel>
+                <box_sizer class="horizontal">
+                    <tree_table padding="xy-10" grow="1">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td name="Arshan">
+                                    <tr>
+                                        <td>Zabeer</td>
+                                        <td>Zabeer2</td>
+                                        <td>Zabeer3</td>
+                                        <td>Zabeer4</td>
+                                        <td>Zabeer5</td>
+                                    </tr>
+                                </td>
+                                <td>Arshan2</td>
+                                <td>Arshan3</td>
+                            </tr>
+                            <tr>
+                                <td>Arshan4</td>
+                                <td>Arshan5</td>
+                                <td>Arshan6</td>
+                            </tr>
+                            <tr>
+                                <td>Arshan7</td>
+                                <td>Arshan8</td>
+                                <td>Arshan9</td>
+                            </tr>
+                        </tbody>
+                    </tree_table>
                 </box_sizer>
             </panel>
         </box_sizer>

@@ -2,9 +2,9 @@
 
 Ondesked is a markup language intended to make GUI development of desktop applications much easier.
 
-It's based on XML, and is similar to HTML. It transpiles to a C++, where a GUI toolkit is used to define the GUI. As of now, it uses wxWidgets as the GUI toolkit.
+It's based on XML, and is similar to HTML. It transpiles to C++, where a GUI toolkit is used to define the GUI. As of now, it uses wxWidgets as the GUI toolkit.
 
-Ondesked is used for building the view of your application; it's more like the HTML for GUI development. The rest of the application can be written by extending the C++ code generated.
+Ondesked is used for building the view of your application; it's more like the HTML for GUI development. The application built by Ondesked can be extended through ports. You can also connect the Ondesked-generated-app with an existing app through ports.
 
 # Examples
 
