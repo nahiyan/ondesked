@@ -99,7 +99,7 @@
                 </box_sizer>
             </panel>
 
-            <panel>
+            <!-- <panel>
                 <box_sizer class="horizontal">
                     <tree_table padding="xy-10" grow="1">
                         <thead>
@@ -136,7 +136,7 @@
                         </tbody>
                     </tree_table>
                 </box_sizer>
-            </panel>
+            </panel> -->
         </box_sizer>
     </frame>
 </app>
