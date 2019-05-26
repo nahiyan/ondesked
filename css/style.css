@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font: 100% "Roboto", sans-serif;
   scroll-behavior: smooth;
@@ -14,8 +18,13 @@ pre code {
   padding: 1.5em;
 }
 
+p {
+  max-width: 900px;
+  line-height: 1.8em;
+}
+
 #intro {
-  background: #424344;
+  background: #2b2b2b;
   min-height: 100vh;
   padding-top: 3vh;
 }
@@ -26,13 +35,13 @@ pre code {
 #intro h1 {
   font-size: 4em;
   font-weight: 700;
-  font-family: "Open Sans";
+  font-family: Roboto;
 }
 #intro h3 {
   font-size: 1.1em;
   color: #CCC;
 }
-#intro #example {
+#intro #transition {
   max-width: 992px;
   margin: auto;
   display: flex;
@@ -40,21 +49,22 @@ pre code {
   justify-content: center;
   align-items: center;
 }
-#intro #example i {
+#intro #transition i {
   color: #CCC;
   font-size: 5em;
 }
-#intro #example div {
+#intro #transition div {
   display: flex;
   flex-direction: column;
 }
-#intro #example i.fa-arrow-right {
+#intro #transition i.fa-long-arrow-alt-right {
   display: none;
 }
-#intro #example i.fa-arrow-down {
+#intro #transition i.fa-long-arrow-alt-down {
   align-self: center;
+  display: block;
 }
-#intro #example img {
+#intro #transition img {
   align-self: center;
 }
 #intro #menu {
@@ -71,6 +81,16 @@ pre code {
 #intro #menu li a {
   color: #CCC;
   font-size: 1.3em;
+}
+
+#about h1, #example h1 {
+  margin-top: 2em;
+}
+#about h3, #example h3 {
+  margin-top: 1.5em;
+}
+#about p, #example p {
+  margin-top: 1em;
 }
 
 @media (min-width: 576px) {
@@ -118,19 +138,19 @@ pre code {
     padding-top: 6em;
   }
   #intro h1 {
-    font-size: 8em;
+    font-size: 6em;
   }
   #intro h3 {
-    font-size: 1.8em;
+    font-size: 1.6em;
   }
-  #intro #example i.fa-arrow-down {
+  #intro #transition i.fa-long-arrow-alt-down {
     display: none;
   }
-  #intro #example i.fa-arrow-right {
+  #intro #transition i.fa-long-arrow-alt-right {
     display: block;
     align-self: center;
   }
-  #intro #example .col-arrow {
+  #intro #transition .col-arrow {
     padding-left: 2.5em;
     padding-right: 0em;
   }
@@ -150,19 +170,19 @@ pre code {
     padding-top: 4em;
   }
   #intro h1 {
-    font-size: 10em;
+    font-size: 8em;
   }
   #intro h3 {
-    font-size: 2em;
+    font-size: 1.8em;
   }
-  #intro #example i.fa-arrow-down {
+  #intro #transition i.fa-long-arrow-alt-down {
     display: none;
   }
-  #intro #example i.fa-arrow-right {
+  #intro #transition i.fa-long-arrow-alt-right {
     display: block;
     align-self: center;
   }
-  #intro #example img {
+  #intro #transition img {
     align-self: center;
   }
   #intro #menu {
