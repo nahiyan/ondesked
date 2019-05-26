@@ -2,6 +2,8 @@ doctype html
 
 html
     head
+        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css")
+            
         link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
 
         link(rel="stylesheet" href="css/style.css")
@@ -9,25 +11,62 @@ html
         link(href="https://fonts.googleapis.com/css?family=Mandali|Open+Sans|Roboto:400,700&display=swap" rel="stylesheet")
 
         link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous")
+
+        meta(name="viewport" content="width=device-width, initial-scale=1")
     body
         div#intro
             div.container
-                h1 Ondesked
+                div.row
+                    div.col-sm
+                        h1 Ondesked
 
-                h3
-                    u.
-                        A markup language for developing GUI of desktop apps.
+                        h3
+                            u.
+                                A markup language for developing GUI of desktop apps.
 
-                ul.menu
-                    li
-                        a(href="#features").
-                            Features
-                    li
-                        a(href="#").
-                            Guide
-                    li
-                        a(href="#").
-                            Documentation
+                div#example.mt-5.row
+                    div.col-lg
+                        pre
+                            code.html
+                                = '<app id="adder">'
+                                br
+                                = '\t<frame class="centered visible" title="Adder">'
+                                br
+                                = '\t\t<box_sizer class="vertical fit-parent">'
+                                br
+                                = '\t\t\t<text padding="lrt-20">Result: 0</text>'
+                                br
+                                = '\t\t\t<textfield padding="lrt-20">0</textfield>'
+                                br
+                                = '\t\t\t<textfield padding="lrt-20">0</textfield>'
+                                br
+                                = '\t\t\t<button padding="xy-20">Add</button>'
+                                br
+                                = '\t\t</box_sizer>'
+                                br
+                                = '\t</frame>'
+                                br
+                                = '</app>'
+
+                    div.col-lg.col-arrow
+                        i.fas.fa-arrow-right
+                        i.fas.fa-arrow-down
+
+                    div.col-lg
+                        img(src="img/gui.png")
+
+                div.row
+                    div.col
+                        ul#menu
+                            li
+                                a(href="#features").
+                                    Features
+                            li
+                                a(href="#").
+                                    Guide
+                            li
+                                a(href="#").
+                                    Documentation
 
         div#features.mt-5
             div.container
@@ -38,3 +77,7 @@ html
                         Hey
                     div.col-sm.
                         Hey
+
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" type="text/javascript")
+        script(type="text/javascript").
+            hljs.initHighlightingOnLoad();

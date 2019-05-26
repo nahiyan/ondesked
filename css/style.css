@@ -3,35 +3,178 @@ body {
   scroll-behavior: smooth;
 }
 
+pre {
+  tab-size: 4;
+}
+pre code {
+  border-radius: 5px;
+}
+
+.hljs {
+  padding: 1.5em;
+}
+
 #intro {
   background: #424344;
-  height: 100vh;
-  padding-top: 20vh;
+  min-height: 100vh;
+  padding-top: 3vh;
 }
 #intro h1, #intro h3 {
   color: white;
   text-align: center;
 }
 #intro h1 {
-  font-size: 10em;
+  font-size: 4em;
   font-weight: 700;
   font-family: "Open Sans";
 }
 #intro h3 {
-  font-size: 2em;
+  font-size: 1.1em;
   color: #CCC;
 }
-#intro .menu {
-  margin-top: 10em;
+#intro #example {
+  max-width: 992px;
+  margin: auto;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+#intro #example i {
+  color: #CCC;
+  font-size: 5em;
+}
+#intro #example div {
+  display: flex;
+  flex-direction: column;
+}
+#intro #example i.fa-arrow-right {
+  display: none;
+}
+#intro #example i.fa-arrow-down {
+  align-self: center;
+}
+#intro #example img {
+  align-self: center;
+}
+#intro #menu {
+  padding-left: 0px;
+  display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
 }
-#intro .menu li {
+#intro #menu li {
+  margin-bottom: 1em;
   list-style: none;
+  align-self: center;
 }
-#intro .menu li a {
+#intro #menu li a {
   color: #CCC;
-  font-size: 2em;
+  font-size: 1.3em;
+}
+
+@media (min-width: 576px) {
+  #intro {
+    padding-top: 4em;
+  }
+  #intro h1 {
+    font-size: 5em;
+  }
+  #intro h3 {
+    font-size: 1.5em;
+  }
+  #intro #menu {
+    flex-direction: row;
+  }
+  #intro #menu li {
+    align-self: center;
+  }
+  #intro #menu li a {
+    font-size: 1.5em;
+  }
+}
+@media (min-width: 768px) {
+  #intro {
+    padding-top: 4em;
+  }
+  #intro h1 {
+    font-size: 5em;
+  }
+  #intro h3 {
+    font-size: 1.5em;
+  }
+  #intro #menu {
+    flex-direction: row;
+  }
+  #intro #menu li {
+    align-self: center;
+  }
+  #intro #menu li a {
+    font-size: 1.5em;
+  }
+}
+@media (min-width: 992px) {
+  #intro {
+    padding-top: 6em;
+  }
+  #intro h1 {
+    font-size: 8em;
+  }
+  #intro h3 {
+    font-size: 1.8em;
+  }
+  #intro #example i.fa-arrow-down {
+    display: none;
+  }
+  #intro #example i.fa-arrow-right {
+    display: block;
+    align-self: center;
+  }
+  #intro #example .col-arrow {
+    padding-left: 2.5em;
+    padding-right: 0em;
+  }
+  #intro #menu {
+    margin-top: 4em;
+    flex-direction: row;
+  }
+  #intro #menu li {
+    align-self: center;
+  }
+  #intro #menu li a {
+    font-size: 1.5em;
+  }
+}
+@media (min-width: 1200px) {
+  #intro {
+    padding-top: 4em;
+  }
+  #intro h1 {
+    font-size: 10em;
+  }
+  #intro h3 {
+    font-size: 2em;
+  }
+  #intro #example i.fa-arrow-down {
+    display: none;
+  }
+  #intro #example i.fa-arrow-right {
+    display: block;
+    align-self: center;
+  }
+  #intro #example img {
+    align-self: center;
+  }
+  #intro #menu {
+    margin-top: 4em;
+    flex-direction: row;
+  }
+  #intro #menu li {
+    align-self: center;
+  }
+  #intro #menu li a {
+    font-size: 1.5em;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
