@@ -24,7 +24,7 @@ p {
 }
 
 #intro {
-  background: #2b2b2b;
+  background: radial-gradient(circle at 50% 50%, #666970 29%, #2c2d30 120%);
   min-height: 100vh;
   padding-top: 3vh;
 }
@@ -197,4 +197,4 @@ p {
   }
 }
 
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=index.css.map */

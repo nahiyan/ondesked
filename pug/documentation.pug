@@ -1,0 +1,285 @@
+extends base.pug
+
+block styles
+    link(rel="stylesheet" href="css/documentation.css")
+
+block content
+    div.container
+        div.row
+            div.col-sm-8
+                h1#introduction Introduction
+
+                p.
+                    Ondesked is a markup language which is used for developing GUI for desktop apps.
+                p.
+                    It's based on XML, and is similar to HTML; if you know HTML, you already know some of Ondesked.
+                p
+                    | Every Ondesked document should have an 
+                    code app
+                    |  element as the root element. Just like this:
+
+                pre
+                    code.xml
+                        = '<app>...</app>'
+
+                p
+                    | You can think of it as equivalent to an 
+                    code html
+                    |  tag.
+
+                p
+                    | Ondesked is designed to be strict, to prevent any unexpected behavior, and to keep codes consistent.
+                p
+                    | So, every Ondesked document should start with 
+                    code app
+                    |  tag, otherwise it just won't work.
+
+
+                h1#app App
+
+                p
+                    | App, as the name explains, represents the app that you're building.
+
+                p
+                    | As mentioned in the previous heading, the
+                    code app
+                    |  element should be at the root of the document.
+
+                p
+                    |  Syntax:
+
+                pre
+                    code.xml
+                        = '<app>...</app>'
+
+                p
+                    | Attributes:
+
+                p
+                    ul
+                        li
+                            code id
+                            span
+                                | Identifier of the app, extremely important even if it may not seem to be doing much.
+
+
+                h1#frame Frame
+
+                // TODO : Screenshot of a frame
+
+                p
+                    | A frame is pretty much a general window, much like the browser window you're reading this on right now.
+
+                p
+                    | Frames must go inside 
+                    code app
+                    |  tags. Here's the basic syntax:
+
+                pre
+                    code.xml
+                        = '<frame>...</frame>'
+
+                p
+                    | Attributes:
+
+                p
+                    ul
+                        li
+                            code title
+                            span
+                                | Title of the frame.
+
+                p
+                    | Classes:
+
+                p
+                    ul
+                        li
+                            code centered
+                            span
+                                | Center the frame in the screen.
+
+                        li
+                            code visible
+                            span
+                                | Make the frame visible.
+
+                h1#panel Panel
+
+                // TODO : Screenshot of a panel
+
+                p
+                    | A panel holds UI elements, such as buttons, textfields, textareas, checkboxes, etc together. It may also hold other panels.
+
+                p
+                    | It's highly recommended to always use panels to hold UI elements, whenever possible.
+
+                p
+                    |  Syntax:
+
+                pre
+                    code.xml
+                        = '<panel>...</panel>'
+
+                h1#button Button
+
+                    // TODO : Screenshot of a button
+
+                p
+                    | A button is an UI element which may be clickable.
+
+                p
+                    |  Syntax:
+
+                pre
+                    code.xml
+                        = '<button>...</button>'
+
+                p
+                    | Here, 
+                    code ...
+                    |  represents text you want to appear inside the button.
+
+                p
+                    | Attributes:
+
+                p
+                    ul
+                        li
+                            code onclick
+                            span
+                                | Name of the event which you want to be invoked when the user clicks on the button.
+
+                h1#textfield Textfield
+
+                    // TODO : Screenshot of a textfield
+
+                p
+                    | An UI element where the user can type single-lined text.
+
+                p
+                    |  Syntax:
+
+                pre
+                    code.xml
+                        = '<textfield>...</textfield>'
+
+                p
+                    | Here, 
+                    code ...
+                    |  represents text you want to appear inside the textfield.
+
+                h1#textarea Textarea
+
+                    // TODO : Screenshot of a textarea
+
+                p
+                    | Similar to 
+                    a(href="#textfield") Textfield
+                    |  but allows multi-lined input.
+
+                p
+                    |  Syntax:
+
+                pre
+                    code.xml
+                        = '<textarea>...</textarea>'
+
+                p
+                    | Here, 
+                    code ...
+                    |  represents text you want to appear inside the textarea.
+
+                p
+                    | Attributes:
+
+                p
+                    ul
+                        li
+                            code width
+                            span
+                                | How wide the textarea will be in pixel.
+
+                        li
+                            code height
+                            span
+                                | How tall the textarea will be in pixel.
+
+                h1#colpane Collapsible Pane
+
+                    // TODO : Screenshot of a collapsible pane
+
+                p
+                    | A UI element which holds UI elements, such as buttons, textfields, textareas, panels, etc, and can expand and collapse on click.
+
+                p
+                    |  Syntax:
+
+                pre
+                    code.xml
+                        = '<colpane>...</colpane>'
+
+                p
+                    | Here, 
+                    code ...
+                    |  represents its content - other elements it holds. The content will expand and collapse on click.
+
+                h1#table Table
+
+                    // TODO : Screenshot of a table
+
+                p
+                    | An UI element which organizes data into rows and columns.
+
+                p
+                    |  Syntax:
+
+                pre
+                    code.xml
+                        = '<table>'
+                        = '\n\t<thead>'
+                        = '\n\t\t<tr>'
+                        = '\n\t\t\t<th>...</th>'
+                        = '\n\t\t\t<th>...</th>'
+                        = '\n\t\t</tr>'
+                        = '\n\t</thead>'
+                        = '\n\t<tbody>'
+                        = '\n\t\t<tr>'
+                        = '\n\t\t\t<td>...</td>'
+                        = '\n\t\t\t<td>...</td>'
+                        = '\n\t\t</tr>'
+                        = '\n\t</tbody>'
+                        = '\n</table>'
+
+                p
+                    | A table has a head (
+                    code thead
+                    | ) and a body (
+                    code tbody
+                    | ).
+
+                p
+                    | The head includes the column cells (
+                    code th
+                    | ) , whilst the body includes the data cells (
+                    code td
+                    | ).
+
+                p
+                    | Each 
+                    code tr
+                    |  element represents a row.
+
+                p
+                    | The 
+                    code ...
+                    |  includes textual content.
+
+                p
+                    | So here, we have a table with:
+                    ul
+                        li One row of two column cells.
+                        li One row of two data cells.
+
+            div.col-sm-4
+                include nav
