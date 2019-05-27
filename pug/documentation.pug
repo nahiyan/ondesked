@@ -6,7 +6,10 @@ block styles
 block content
     div.container
         div.row
-            div.col-sm-8
+            div.col-md-4
+                include nav
+
+            div.col-md-8
                 h1#introduction Introduction
 
                 p.
@@ -120,6 +123,20 @@ block content
                 pre
                     code.xml
                         = '<panel>...</panel>'
+
+                h1#text Text
+
+                // TODO : Screenshot of some text
+
+                p
+                    | A UI element which presents some text.
+
+                p
+                    |  Syntax:
+
+                pre
+                    code.xml
+                        = '<text>...</text>'
 
                 h1#button Button
 
@@ -281,5 +298,110 @@ block content
                         li One row of two column cells.
                         li One row of two data cells.
 
-            div.col-sm-4
-                include nav
+                h1#menu_system Menu System
+
+                    // TODO : Screenshot of a menu
+
+                p
+                    | A menu system features a way of interacting with the program by clicking items, usually presented through dropdowns.
+
+                p
+                    | A menu system consists primarily of:
+
+                ul
+                    li Menubar
+                    li Menu
+                    li Menu Item
+
+                p
+                    | A 
+                    b menubar
+                    |  holds 
+                    b menus
+                    |  - which are dropdowns, meaning that they expand and collapse on click. Each menu is going to have 
+                    b menu items
+                    |, which appears when the menu is expanded.
+
+
+                h3 Syntax
+
+                p
+                    |  A menubar:
+
+                pre
+                    code.xml
+                        = '<menu_bar>...</menu_bar>'
+
+                p
+                    | The 
+                    code ...
+                    |  includes menus.
+
+                p
+                    | A menubar with a menu inside:
+
+                pre
+                    code.xml
+                        = '<menu_bar>'
+                        = '\n\t<menu>...</menu>'
+                        = '\n</menu_bar>'
+
+                p
+                    | The 
+                    code ...
+                    |  includes menu items.
+
+                p
+                    | A menubar, holding a menu, which in turn holds 3 menu items:
+
+                pre
+                    code.xml
+                        = '<menu_bar>'
+                        = '\n\t<menu>'
+                        = '\n\t\t<menu_item>...</menu_item>'
+                        = '\n\t\t<menu_item>...</menu_item>'
+                        = '\n\t\t<menu_item>...</menu_item>'
+                        = '\n\t</menu>'
+                        = '\n</menu_bar>'
+
+                p
+                    | The 
+                    code ...
+                    |  includes text which will be shown, when the item will become visible (when its parent, the menu, will be expanded).
+
+                h3 Nesting
+
+                // TODO : Screenshot of nesting
+
+                p
+                    | Menus can be nested inside each other by having another menu as its child.
+
+                pre
+                    code.xml
+                        = '<menu_bar>'
+                        = '\n\t<menu>'
+                        = '\n\t\t<menu>'
+                        = '\n\t\t\t...'
+                        = '\n\t\t</menu>'
+                        = '\n\t</menu>'
+                        = '\n</menu_bar>'
+
+                p
+                    | Here, we got a menubar, which hosts a menu, which in turn hosts another menu.
+
+                p
+                    | The 
+                    code ...
+                    |  can be menu items, or even more menus. There is no limit to the level of nesting.
+
+                h3 Attributes
+
+                p
+                    | Menu Attributes:
+
+                p
+                    ul
+                        li
+                            code name
+                            span
+                                | The name of the menu will be displayed in the menubar.

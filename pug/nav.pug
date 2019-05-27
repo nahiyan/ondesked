@@ -1,4 +1,8 @@
-ul.nav.flex-column#menu
+div.navbar-light
+    button.navbar-toggler(data-toggle="collapse" data-target="#menu" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation")
+        span.navbar-toggler-icon
+
+ul.nav.flex-column#menu.collapse
     li
         h1 Menu
 
@@ -15,6 +19,9 @@ ul.nav.flex-column#menu
         a.nav-link(href="#panel") Panel
 
     li.nav-item
+        a.nav-link(href="#text") Text
+
+    li.nav-item
         a.nav-link(href="#button") Button
 
     li.nav-item
@@ -28,3 +35,6 @@ ul.nav.flex-column#menu
 
     li.nav-item
         a.nav-link(href="#table") Table
+
+    li.nav-item
+        a.nav-link(href="#menu_system") Menu System
