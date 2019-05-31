@@ -1,4 +1,0 @@
-# Hey now
-
-brown cow!
-
