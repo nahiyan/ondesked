@@ -63,6 +63,10 @@ We want the window, or more specifically - the frame, to be titled "Hello World.
 </app>
 ```
 
+Here's how it may look at this stage:
+
+![Blank window titled "Hello World"](img/hello_world_blank_window.png)
+
 ## Adding Text to the Window
 
 By now, we have a blank window titled, "Hello World." Let's add the "Hello World!" text to it. To do so, we need to add a `text` element to it.
@@ -77,3 +81,6 @@ By now, we have a blank window titled, "Hello World." Let's add the "Hello World
 
 And that's it! We should have a hello world application up and running, created with just 5 lines of code.
 
+Here's how it may look at this stage:
+
+![Blank window titled "Hello World"](img/hello_world_final.png)
