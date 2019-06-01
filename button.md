@@ -1,5 +1,7 @@
 # Button
 
+![Button](img/button.png)
+
 A button is an UI element which may be clickable.
 
 Syntax:

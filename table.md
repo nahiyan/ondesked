@@ -1,5 +1,7 @@
 # Table
 
+![Table](img/table.png)
+
 An UI element which organizes data into rows and columns.
 
 Syntax:

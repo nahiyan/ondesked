@@ -1,5 +1,7 @@
 # Textarea
 
+![Textarea](img/textarea.png)
+
 Similar to [Textfield](https://nahiyan.gitbook.io/ondesked/textfield) but allows multi-lined input.
 
 Syntax:
