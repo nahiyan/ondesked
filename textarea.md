@@ -1,6 +1,6 @@
 # Textarea
 
-Similar to (Textfield)[textfield] but allows multi-lined input.
+Similar to [Textfield](textfield) but allows multi-lined input.
 
 Syntax:
 
