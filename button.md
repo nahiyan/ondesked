@@ -1,6 +1,6 @@
 # Button
 
-![Button](img/button.png)
+![Bunch of buttons marked in green.](img/button.png)
 
 A button is an UI element which may be clickable.
 

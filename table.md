@@ -1,6 +1,6 @@
 # Table
 
-![Table](img/table.png)
+![A table marked in green.](img/table.png)
 
 An UI element which organizes data into rows and columns.
 

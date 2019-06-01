@@ -1,6 +1,6 @@
 # Menu System
 
-![Menu System](img/menu_system.png)
+![A menu system with deep nesting of menus.](img/menu_system.png)
 
 A menu system features a way for the user to interact with the program, through clicking items, usually presented through dropdowns.
 

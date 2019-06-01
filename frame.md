@@ -1,6 +1,6 @@
 # Frame
 
-![Frame](img/frame.png)
+![An empty frame titled "Calculator."](img/frame.png)
 
 A frame is pretty much a general window, much like the browser window you're reading this on right now.
 
