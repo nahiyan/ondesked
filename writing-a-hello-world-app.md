@@ -13,17 +13,13 @@ The first step to creating our app is to make an Ondesked document, which will b
 
 > Ondesked documents are just XML files, as Ondesked is a subset of XML.
 
-Inside it, we'll add an \`app\` element to signify that it's an app:
+Inside it, we'll add an `app` element to signify that it's an app:
 
-{% code-tabs %}
-{% code-tabs-item title="program.xml" %}
 ```markup
 <app>
     
 </app>
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 > Ondesked document should have an app element at its root.
 
@@ -41,8 +37,6 @@ It is important to give the app a name. To do so, add an attribute `id` to the `
 
 Now that we got a blank app named "HelloWorld", we can create a window in it. There are several types of windows, but all we want is a typical window just like the browser window you're probably reading this guide from \(if you're on a Desktop environment\). Such a window is called `frame`. So let's create one:
 
-{% code-tabs %}
-{% code-tabs-item title="program.xml" %}
 ```markup
 <app id="HelloWorld">
     <frame>
@@ -50,8 +44,6 @@ Now that we got a blank app named "HelloWorld", we can create a window in it. Th
     </frame>
 </app>
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 We want the window, or more specifically - the frame, to be titled "Hello World." To do so, we have to add an attribute `title` to the `frame`.
 
@@ -84,3 +76,9 @@ And that's it! We should have a hello world application up and running, created 
 Here's how it may look at this stage:
 
 ![Blank window titled "Hello World"](img/hello_world_final.png)
+
+## Conclusion
+
+The app may not look perfect, nor it's the best way to add text or anything to a window. We'll discuss possible problems with it, and how to address them, in later guides.
+
+However, this guide is intended to keep things simple for beginners. Don't worry, we'll look at recommended ways to do things as we progress. 
