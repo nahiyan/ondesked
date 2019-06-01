@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Official Site](https://hedronium.github.io/ondesked)
-* [Introduction](introduction.md)
+* [About](about.md)
 * [App](app.md)
 * [Frame](frame.md)
 * [Panel](panel.md)
