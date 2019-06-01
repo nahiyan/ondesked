@@ -25,20 +25,18 @@ p {
 
 #intro {
   background: radial-gradient(circle at 50% 50%, #666970 29%, #2c2d30 120%);
-  min-height: 100vh;
-  padding-top: 3vh;
 }
 #intro h1, #intro h3 {
   color: white;
   text-align: center;
 }
 #intro h1 {
-  font-size: 4em;
-  font-weight: 700;
-  font-family: Roboto;
+  margin-top: 2em;
+  font-size: 2rem;
+  font-family: "Roboto";
 }
 #intro h3 {
-  font-size: 1.1em;
+  font-size: 1rem;
   color: #CCC;
 }
 #intro #transition {
@@ -51,7 +49,7 @@ p {
 }
 #intro #transition i {
   color: #CCC;
-  font-size: 5em;
+  font-size: 5rem;
 }
 #intro #transition div {
   display: flex;
@@ -80,7 +78,7 @@ p {
 }
 #intro #menu li a {
   color: #CCC;
-  font-size: 1.3em;
+  font-size: 1.3rem;
 }
 
 #about h1, #example h1 {
@@ -94,15 +92,6 @@ p {
 }
 
 @media (min-width: 576px) {
-  #intro {
-    padding-top: 4em;
-  }
-  #intro h1 {
-    font-size: 5em;
-  }
-  #intro h3 {
-    font-size: 1.5em;
-  }
   #intro #menu {
     flex-direction: row;
   }
@@ -110,18 +99,16 @@ p {
     align-self: center;
   }
   #intro #menu li a {
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
 }
 @media (min-width: 768px) {
-  #intro {
-    padding-top: 4em;
-  }
   #intro h1 {
-    font-size: 5em;
+    margin-top: 1.6em;
+    font-size: 3rem;
   }
   #intro h3 {
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
   #intro #menu {
     flex-direction: row;
@@ -130,18 +117,16 @@ p {
     align-self: center;
   }
   #intro #menu li a {
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
 }
 @media (min-width: 992px) {
-  #intro {
-    padding-top: 6em;
-  }
   #intro h1 {
-    font-size: 6em;
+    margin-top: 1em;
+    font-size: 6rem;
   }
   #intro h3 {
-    font-size: 1.6em;
+    font-size: 1.6rem;
   }
   #intro #transition i.fa-long-arrow-alt-down {
     display: none;
@@ -162,38 +147,7 @@ p {
     align-self: center;
   }
   #intro #menu li a {
-    font-size: 1.5em;
-  }
-}
-@media (min-width: 1200px) {
-  #intro {
-    padding-top: 4em;
-  }
-  #intro h1 {
-    font-size: 8em;
-  }
-  #intro h3 {
-    font-size: 1.8em;
-  }
-  #intro #transition i.fa-long-arrow-alt-down {
-    display: none;
-  }
-  #intro #transition i.fa-long-arrow-alt-right {
-    display: block;
-    align-self: center;
-  }
-  #intro #transition img {
-    align-self: center;
-  }
-  #intro #menu {
-    margin-top: 4em;
-    flex-direction: row;
-  }
-  #intro #menu li {
-    align-self: center;
-  }
-  #intro #menu li a {
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
 }
 
