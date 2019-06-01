@@ -1,6 +1,6 @@
 # Menu System
 
-A menu system features a way of interacting with the program by clicking items, usually presented through dropdowns.
+A menu system features a way for the user to interact with the program, through clicking items, usually presented through dropdowns.
 
 A menu system consists primarily of:
 
