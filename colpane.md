@@ -1,7 +1,6 @@
 # Collapsible Pane
 
-![Collapsible Pane Collapsed](img/colpane.png)
-![Collapsible Pane Expanded](img/colpane2.png)
+![Collapsible Pane Expand and Collapse](img/colpane.gif)
 
 A UI element which holds UI elements, such as buttons, textfields, textareas, panels, etc, and can expand and collapse on click.
 
