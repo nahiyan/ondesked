@@ -1,0 +1,14 @@
+format.sh
+run.sh
+docs
+dist
+app
+.cabal-sandbox
+node_modules
+css
+pug
+sass
+src
+*.html
+*.sh
+img/gui.png
