@@ -19,8 +19,8 @@ pre code {
 }
 
 p {
-  max-width: 900px;
   line-height: 1.8em;
+  font-size: 1em;
 }
 
 #intro {
@@ -32,11 +32,11 @@ p {
 }
 #intro h1 {
   margin-top: 2em;
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-family: "Roboto";
 }
 #intro h3 {
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #CCC;
 }
 #intro #transition {
@@ -81,8 +81,12 @@ p {
   font-size: 1.3rem;
 }
 
+#about .container, #example .container {
+  max-width: 900px;
+}
 #about h1, #example h1 {
   margin-top: 2em;
+  font-weight: 700;
 }
 #about h3, #example h3 {
   margin-top: 1.5em;
@@ -119,6 +123,16 @@ p {
   #intro #menu li a {
     font-size: 1.5rem;
   }
+
+  #about h1, #example h1 {
+    font-size: 3em;
+  }
+  #about h3, #example h3 {
+    font-size: 2em;
+  }
+  #about p, #example p {
+    font-size: 1.1em;
+  }
 }
 @media (min-width: 992px) {
   #intro h1 {
@@ -148,6 +162,17 @@ p {
   }
   #intro #menu li a {
     font-size: 1.5rem;
+  }
+}
+@media (min-width: 1200px) {
+  #about h1, #example h1 {
+    font-size: 4em;
+  }
+  #about h3, #example h3 {
+    font-size: 2.5em;
+  }
+  #about p, #example p {
+    font-size: 1.2em;
   }
 }
 

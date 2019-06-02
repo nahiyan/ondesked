@@ -5,3 +5,4 @@ dist
 app
 .cabal-sandbox
 node_modules
+data
