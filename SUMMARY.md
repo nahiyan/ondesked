@@ -1,5 +1,5 @@
-# Table of contents
+# Table of Contents
 
-* [Introduction](README.md)
 * [Official Site](https://hedronium.github.io/ondesked)
-* [Writing a Hello World App](writing-a-hello-world-app.md)
+* [Getting Started](/getting_started.md)
+* [Writing a Hello World App](/writing-a-hello-world-app.md)
