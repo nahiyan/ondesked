@@ -1,5 +1,3 @@
-# Initial page
-
 ## Ondesked
 
 Ondesked is a markup language intended to make GUI development of desktop applications much easier.
@@ -47,7 +45,7 @@ Here's some Ondesked code:
 
 ### Generated C++ Code
 
-After compilation, code equivalent to this will be generated:
+After compilation, C++ code will be generated. Here's the main C++ file:
 
 ```cpp
 #include "types.h"
@@ -91,5 +89,4 @@ bool Adder::OnInit()
 
 This is how the desktop application may look like after compiled:
 
-![](images/result.png)
-
+![Resultant GUI App](images/result.png)
