@@ -30,7 +30,7 @@ Ondesked is used for building the view of your desktop app. View, in this case, 
 
 Here's some Ondesked code:
 
-```markup
+```xml
 <app id="adder">
     <frame class="centered visible" title="Adder">
         <box_sizer class="vertical fit-parent">
