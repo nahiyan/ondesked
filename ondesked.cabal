@@ -25,6 +25,8 @@ executable ondesked
                         process,
                         hsdev,
                         text,
+                        directory,
+                        filepath,
                         casing
 
   default-language:     Haskell2010
@@ -48,4 +50,5 @@ executable ondesked
                         TableColumn,
                         TableRow,
                         TableItem,
+                        CommandLine,
                         MenuItem
