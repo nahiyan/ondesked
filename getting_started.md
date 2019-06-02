@@ -35,6 +35,36 @@ For Linux, it's recommended to follow the official installation guides of wxWidg
 
 Will be updated later.
 
+## Compiling Ondesked Code
+
+Let's assume that we're in a directory with an Ondesked document called `program.xml`
+
+From the terminal/command prompt, we can run this command to compile it:
+
+```sh
+ondesked program.xml
+```
+
+As you can guess, here's the format of the command:
+
+```sh
+ondesked file_path
+```
+
+Where `file_path` will be replaced by the file path.
+
+You can also have complex path like this:
+
+```sh
+ondesked dog/cat/mouse.xml
+```
+
+This will compile the Ondesked document `mouse.xml`, which is inside the directory named `cat`, which in turn is inside the directory named `dog`.
+
+After compilation, a new directory will be created, with name derived from the file name of the Ondesked document. For example, if the file name was `program.xml`, the directory will be called `program`.
+
+Inside the newly created directory, you should have several files, representing a C++ app. Compiling the C++ code will build the app. We'll look into it in the next heading.
+
 ## Compiling the Generated C++ App
 
 Ondesked code will always compile to C++. We need to compile the C++ code with headers, libraries, etc of wxWidgets provided to the compiler.
