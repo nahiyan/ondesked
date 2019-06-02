@@ -75,10 +75,10 @@ And that's it! We should have a hello world application up and running, created 
 
 Here's how it may look at this stage:
 
-![Blank window titled "Hello World"](img/hello_world_final.png)
+![Window titled "Hello World" with text "Hello World"](img/hello_world_final.png)
 
 ## Conclusion
 
 The app may not look perfect, nor it's the best way to add text or anything to a window. We'll discuss possible problems with it, and how to address them, in later guides.
 
-However, this guide is intended to keep things simple for beginners. Don't worry, we'll look at recommended ways to do things as we progress. 
+However, this guide is intended to keep things simple for beginners. We'll look at recommended ways to do things as we progress in later guides. 
