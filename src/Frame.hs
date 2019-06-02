@@ -32,15 +32,12 @@ toCppHeader element elementParentName indentationAmount model =
                 ++ "\"), wxDefaultPosition, wxDefaultSize);\n\n"
 
         center =
-            if True == hasClass "centered" element then
-                prefix
-                    ++ eName
-                    ++ "->Center();\n"
-            else
-                ""
+            prefix
+                ++ eName
+                ++ "->Center();\n"
 
         _show =
-            if True == hasClass "visible" element then
+            if False == hasClass "hidden" element then
                 prefix
                     ++ eName
                     ++ "->Show(true);\n"
