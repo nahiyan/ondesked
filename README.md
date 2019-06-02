@@ -89,4 +89,4 @@ bool Adder::OnInit()
 
 This is how the desktop application may look like after compiled:
 
-![Resultant GUI App](images/result.png)
+![Resultant GUI App](img/result.png)
