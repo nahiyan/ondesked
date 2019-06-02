@@ -33,10 +33,26 @@ For Linux, it's recommended to follow the official installation guides of wxWidg
 
 ## Installing Ondesked
 
+Will be updated later.
+
 ## Compiling the Generated C++ App
 
 Ondesked code will always compile to C++. We need to compile the C++ code with headers, libraries, etc of wxWidgets provided to the compiler.
 
 The easiest way to do so is to use the program `wx-config` which should come with wxWidgets. `wx-config` will output the options and flags that needs to be passed to the compiler so you don't have to worry about it at all.
 
-For example, this will output all the flags and 
+For example, this command will output all the flags and libraries of wxWidgets:
+
+```sh
+wx-config --libs --cxxflags
+```
+
+Let's embed it in the command of our desired compiler, like this:
+
+```sh
+g++ `wx-config --libs --cxxflags` *.cpp -o main
+```
+
+Here, we're using g++ (with wx-config output) which will compile any C++ file (*.cpp) and output the executable as "main."
+
+This should build the C++ code, and make the standalone executable GUI app, which is the end product.
