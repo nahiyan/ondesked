@@ -1,12 +1,12 @@
 # Table
 
-![A table marked in green.](img/table.png)
+![A table marked in green.](.gitbook/assets/table.png)
 
 An UI element which organizes data into rows and columns.
 
 Syntax:
 
-```xml
+```markup
 <table>
     <thead>
         <tr>
@@ -23,9 +23,9 @@ Syntax:
 </table>
 ```
 
-A table has a head (`thead`) and a body (`tbody`).
+A table has a head \(`thead`\) and a body \(`tbody`\).
 
-The head includes the column cells (`th`) , whilst the body includes the data cells (`td`).
+The head includes the column cells \(`th`\) , whilst the body includes the data cells \(`td`\).
 
 Each `tr` element represents a row.
 
@@ -33,5 +33,6 @@ The `...` includes textual content.
 
 So here, we have a table with:
 
-- One row of two column cells.
-- One row of two data cells.
+* One row of two column cells.
+* One row of two data cells.
+

@@ -1,5 +1,6 @@
 # Table of contents
 
+* [Table of Contents](README.md)
 * [Official Site](https://hedronium.github.io/ondesked)
 * [About](about.md)
 * [App](app.md)
@@ -12,3 +13,4 @@
 * [Collapsible Pane](colpane.md)
 * [Table](table.md)
 * [Menu System](menu_system.md)
+

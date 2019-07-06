@@ -4,6 +4,7 @@ A UI element which presents some text.
 
 Syntax:
 
-```xml
+```markup
 <text>...</text>
 ```
+

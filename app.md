@@ -6,10 +6,11 @@ As mentioned in the [previous page](https://nahiyan.gitbook.io/ondesked/about), 
 
 Syntax:
 
-```xml
+```markup
 <app>...</app>
 ```
 
 Attributes:
 
-- `id` Identifier of the app, extremely important even if it may not seem to be doing much.
+* `id` Identifier of the app, extremely important even if it may not seem to be doing much.
+

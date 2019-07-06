@@ -1,14 +1,15 @@
-# Table of contents
+# Table of Contents
 
 * [Official Site](https://hedronium.github.io/ondesked)
-* [About](/about.md)
-* [App](/app.md)
-* [Frame](/frame.md)
-* [Panel](/panel.md)
-* [Text](/text.md)
-* [Button](/button.md)
-* [Textfield](/textfield.md)
-* [Textarea](/textarea.md)
-* [Collapsible Pane](/colpane.md)
-* [Table](/table.md)
-* [Menu System](/menu_system.md)
+* [About](about.md)
+* [App](app.md)
+* [Frame](frame.md)
+* [Panel](panel.md)
+* [Text](text.md)
+* [Button](button.md)
+* [Textfield](textfield.md)
+* [Textarea](textarea.md)
+* [Collapsible Pane](colpane.md)
+* [Table](table.md)
+* [Menu System](menu_system.md)
+
