@@ -2,6 +2,10 @@
 
 Ondesked is a markup language intended to make GUI development of desktop applications much easier.
 
+## Contributors
+- [Nahiyan Alamgir](https://github.com/nahiyan): Development and planning
+- [Momena Akhter Shukhi](https://github.com/MomenaAkhter): Testing and planning
+
 ## About
 
 ### Transpiles to C++
